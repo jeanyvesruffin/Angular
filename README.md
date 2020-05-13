@@ -2,16 +2,16 @@
 
 Angular est un framework JavaScript qui nous aide à creer des sites Web interactifs.
 
-Angular utilise la syntaxe TypeScript qui suis les normes es7+.
+Angular utilise la syntaxe TypeScript qui suis les normes es7+, ainsi que HTML et CSS.
 
-
-## Version
+## Part 1
+### Version
 
 **AngularJS** inclus toutes les versions Angular 1.x.
 
 **Angular** inclus toutes les versions Angular 2+.
 
-## Architecture
+### Architecture
 
 - One way Data Flow: Flux de donnees a  sens unique
 
@@ -88,7 +88,7 @@ Le rendu est diffusé sur tous les navigateur et visible sur:
 * Native Desktop Apps
 * Other  
 
-## Test tool
+### Test tool
 
 Angular contient des outils de test telques:
 
@@ -96,7 +96,7 @@ Angular contient des outils de test telques:
 * Async & fakeAsync
 * MockBackend
 
-## Module API
+### Module API
 
 	@NgModule({
 		declarations: [ AppComponent, HomeComponent ],
@@ -104,4 +104,22 @@ Angular contient des outils de test telques:
 		providers: [ Auth ],
 		bootstrap: [ AppComponent ]
 	})
+
+## Quick starter
+
+Installation préalable de:
+
+- npm : Gestionnaire de package de Node.
+- Angular, Angular CLI, TypeScript et testing tools, linters, etc...
+
+Les dependances seront enregistrées avec leur version dans le fichier **package.json**.
+
+
+
+
+
+
+
+
+
 
