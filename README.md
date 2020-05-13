@@ -15,7 +15,7 @@ Angular utilise la syntaxe TypeScript qui suis les normes es7+.
 
 - One way Data Flow: Flux de données à sens unique
 
-![One way Data Flow](dataFlow)
+![One way Data Flow](dataFlow.bmp)
 
 - Dependency Injection: Injection de dependance
 
