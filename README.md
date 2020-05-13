@@ -1,6 +1,6 @@
 # Angular
 
-Angular est un framework JavaScript qui nous aide à créer des sites Web interactifs.
+Angular est un framework JavaScript qui nous aide Ã  crÃ©er des sites Web interactifs.
 
 Angular utilise la syntaxe TypeScript qui suis les normes es7+.
 
@@ -13,18 +13,16 @@ Angular utilise la syntaxe TypeScript qui suis les normes es7+.
 
 ## Architecture
 
-- One way Data Flow: Flux de données à sens unique
+- One way Data Flow: Flux de donnÃ©es Ã  sens unique
 
 ![One way Data Flow](dataFlow.bmp)
 
 - Dependency Injection: Injection de dependance
 
-
 	export class AddNewTagComponent {
 		constructeur(private articleSvc: ArticleService) {}
 	}
-
-
+	
 - Components: Composants
 
 Custom Components:
@@ -54,7 +52,7 @@ Directives - HTML
 	</div>
 
 
-- Templates: Modèles
+- Templates: ModÃ¨les
 
 Templates in Components
 	
@@ -78,11 +76,11 @@ Templates in-line Components
 
 - Zone.js et changement de detection
 
-Zone.js permet d'avoir des opérations qui s'execute de facon asynchrone, lors d'une interaction utilisateur, lors d'une requete http, suite à un timers ...
+Zone.js permet d'avoir des opÃ©rations qui s'execute de facon asynchrone, lors d'une interaction utilisateur, lors d'une requete http, suite Ã  un timers ...
 
 - Rendering Targets: Rendu des elements
 
-Le rendu est diffusé sur tous les navigateur et visible qur:
+Le rendu est diffusÃ© sur tous les navigateur et visible qur:
 
 * Browser/DOM
 * Server-Side
