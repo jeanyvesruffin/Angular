@@ -19,9 +19,11 @@ Angular utilise la syntaxe TypeScript qui suis les normes es7+.
 
 - Dependency Injection: Injection de dependance
 
+
 	export class AddNewTagComponent {
 		constructeur(private articleSvc: ArticleService) {}
 	}
+
 
 - Components: Composants
 
