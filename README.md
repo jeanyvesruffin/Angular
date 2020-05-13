@@ -90,7 +90,7 @@ Le rendu est diffusé sur tous les navigateur et visible qur:
 
 ## Test tool
 
-Angular contient des outils
+Angular contient des outils de test telques:
 
 * TestBed
 * Async & fakeAsync
