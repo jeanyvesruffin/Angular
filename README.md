@@ -174,21 +174,23 @@ Nous allons ajouter le component "pm-products" product-list.component.
 
 2 - Céation du component "product-list.component.ts":
 
-import { Component } from '@angular/core';
-@Component({
-	selector: 'pm-products',
-	templateUrl: './product-list.component.html'
-	})
-export class ProductListComponent  {
-    pageTitle: string = 'Product List';
-}
+	import { Component } from '@angular/core';
+	@Component({
+		selector: 'pm-products',
+		templateUrl: './product-list.component.html'
+		})
+	export class ProductListComponent  {
+		pageTitle: string = 'Product List';
+	}
 
 3 - Importer dans le fichier .css les librairie bootstrap et font-awesome:
 
 	@import "~boostrap/dist/css/bootstrap.min.css";
 	@import "~font-awesome/css/font-awesome.min.css";
 
-4 - Création du templet dans le fichier html "product-list.component.html".
+### Création templet
+
+Dans le fichier html "product-list.component.html".
 
 * Ajout du style **Card** bootstrap [card](https://getbootstrap.com/docs/4.5/components/card/)
 * Ajout du systeme **Grid** bootstrap [grid](https://getbootstrap.com/docs/4.5/layout/grid/#offset-classes)
@@ -196,20 +198,20 @@ export class ProductListComponent  {
 * Ajout d'un **Tableau** bootstrap [table](https://getbootstrap.com/docs/4.5/content/tables/)
 * Ajout d'un **Bouton** bootstrap [btn](https://getbootstrap.com/docs/4.5/components/buttons/#button-tags/)
 
-5 - Utiliser le component comment directive dans app.commponent.ts.
+### Creation directive
+
+1 - Utiliser le component pour y injecter la directive pm-products, dans app.commponent.ts.
 
 	@Component({
 		selector: 'pm-root',
 		template: `
-		<div>
-			<h1>{{pageTitle}}</h1>
-			<div>My First Component</div>
+		...
 			<pm-products></pm-products>
 		</div>
 		`
 	})
 
-6 - Ajouter le component au module concerné app.module.ts
+2 - Ajouter le component au module concerné app.module.ts
 
 	...
 	import { ProductListComponent } from './products/product-list.component';
@@ -222,11 +224,9 @@ export class ProductListComponent  {
 	...
 	})
 
-7 - Binding avec interpolation
+### Binding avec interpolation
 
 ![Exemple Interpolation](Documents/Interpolation.bmp)
-
-8 - Directive et directive integre
 
 Exemple de directive dans le fichier Html:
 
@@ -276,3 +276,21 @@ Dans le fichier product-list.component.ts
 		];
 	}
 
+Exemple de directive integre ***ngFor** dans le fichier Html
+
+	<tr *ngFor='let product of products'>
+		<td></td>
+		<td>{{ product.productName }}</td>
+		<td>{{ product.productCode }}</td>
+		<td>{{ product.releaseDate }}</td>
+		<td>{{ product.price }}</td>
+		<td>{{ product.starRating }}</td>
+	</tr>
+           
+Cette directive permet d'afficher pour chaque produit de produits : productName, productCode, releaseDate, price, starRating.
+
+Rappel **for...of vs for...in**
+
+![for...of vs for...in](Documents/forInVsForOf.bmp)
+
+## Data binding et pipes
