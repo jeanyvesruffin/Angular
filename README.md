@@ -1,6 +1,6 @@
 # Angular
 
-Angular est un framework JavaScript qui nous aide ‡ creer des sites Web interactifs.
+Angular est un framework JavaScript qui nous aide √© creer des sites Web interactifs.
 
 Angular utilise la syntaxe TypeScript qui suis les normes es7+, ainsi que HTML et CSS.
 
@@ -13,9 +13,9 @@ Angular utilise la syntaxe TypeScript qui suis les normes es7+, ainsi que HTML e
 
 ### Architecture
 
-- One way Data Flow: Flux de donnees a† sens unique
+- One way Data Flow: Flux de donnees a√© sens unique
 
-![One way Data Flow](dataFlow.bmp)
+![One way Data Flow](Documents/dataFlow.bmp)
 
 - Dependency Injection: Injection de dependance
 
@@ -76,11 +76,11 @@ Templates in-line Components
 
 - Zone.js et changement de detection
 
-Zone.js permet d'avoir des operations qui s'execute de facon asynchrone, lors d'une interaction utilisateur, lors d'une requete http, suite ‡† un timers ...
+Zone.js permet d'avoir des operations qui s'execute de facon asynchrone, lors d'une interaction utilisateur, lors d'une requete http, suite √© un timers ...
 
 - Rendering Targets: Rendu des elements
 
-Le rendu est diffusÈ sur tous les navigateur et visible sur:
+Le rendu est diffus√© sur tous les navigateur et visible sur:
 
 * Browser/DOM
 * Server-Side
@@ -107,16 +107,49 @@ Angular contient des outils de test telques:
 
 ## Quick starter
 
-Installation prÈalable de:
+Telecharger le projet d'√©tude √† l'adresse url:
+
+https://github.com/DeborahK/Angular-GettingStarted
+
+Installation pr√©alable de:
 
 - npm : Gestionnaire de package de Node.
 - Angular, Angular CLI, TypeScript et testing tools, linters, etc...
 
-Les dependances seront enregistrÈes avec leur version dans le fichier **package.json**.
+Les dependances declarees avec leur version dans le fichier **package.json**.
 
+Une fois le projet recuperer ouvrir un terminal, allez √† la racine du projet puis faire
 
+	npm install
+	npm start
 
+### Modifier le texte d'accueil
 
+Il faut modifier le fichier src/app/app.component.html
+La page du navigateur se met √† jour automatiquement.
+
+### Stoper la compilation
+
+Faire Ctrl+C dans le terminal
+
+## Modules
+
+Exemple du modules ES 2015.
+
+Export Module dans product.ts:
+
+	export class Product{
+	}
+
+Import Module dans product-list.ts
+
+	import { Product } from './product'
+
+## Component
+
+Il est compos√© d'un template (View), class (Class) et de metadata (Annotation).
+
+![Exemple Component](Documents/component.bmp)
 
 
 
