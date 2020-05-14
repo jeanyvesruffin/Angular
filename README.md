@@ -151,8 +151,39 @@ Il est composé d'un template (View), class (Class) et de metadata (Annotation).
 
 ![Exemple Component](Documents/component.bmp)
 
+## Metadata
+
+![Exemple Metadata](Documents/metadata.bmp)
+
+## Creation Component
+
+Nous allons remplacer le component "root" app.component.ts par:
+
+	import { Component } from '@angular/core';
+	@Component({
+	selector: 'pm-root',
+	template:`
+	<div>
+		<h1>{{pageTitle}}</h1>
+		<div>My First Component</div>
+	</div>
+	`
+	})
+	export class AppComponent  {
+	pageTitle: string = 'Gestion entreprise';
+	}
+
+**Attention** nous injectons ici directement le templet html à l'aide de `` (back ticks not quotes, touche alt+7)
+
+**CheckList** pour la création d'un component il faut:
+- Class -> Code:
+
+Donner un nom clair precede de Component (ex: AppComponent), syntaxe PascalCasing avec le mot clé export
+
+	export class AppComponent  {
+	}
 
 
-
-
+- Decoration -> Metadata
+- Import se que l'on a besoin dans le module associé
 
