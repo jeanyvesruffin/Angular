@@ -4,6 +4,16 @@ Angular est un framework JavaScript qui nous aide à creer des sites Web interac
 
 Angular utilise la syntaxe TypeScript qui suis les normes es7+, ainsi que HTML et CSS.
 
+Nous recupererons des styles sur https://getbootstrap.com/ et pour les icones utiliserons la librairie awesome https://fontawesome.com
+
+Installation bootstrap:
+
+	npm install bootstrap
+
+Installation font-awesome:
+
+	npm install font-awesome
+
 ## Part 1: Introduction
 ### Version
 
@@ -175,7 +185,7 @@ Nous allons remplacer le component "root" app.component.ts par:
 
 **Attention** nous injectons ici directement le templet html à l'aide de `` (back ticks not quotes, touche alt+7)
 
-**CheckList Component: Class**
+### **CheckList Component: Class**
 
 1 - Donner un nom clair precede de Component (ex: AppComponent), syntaxe PascalCasing avec le mot clé export
 
@@ -190,7 +200,7 @@ Nous allons remplacer le component "root" app.component.ts par:
 
 3 - Créer les methodes
 
-**CheckList Component: Decoration -> Metadata**
+### **CheckList Component: Decoration -> Metadata**
 
 1 - Ajouter la decoration au component: Prefixe avec @; suffixe avec ().
 
@@ -213,3 +223,22 @@ Nous allons remplacer le component "root" app.component.ts par:
 	</div>
 	`
 	})
+
+## Templates, interpolation et directive
+
+Exemple: Creation d'un component gérant une liste de produit.
+
+1 - Importer dans le fichier .css les librairie bootstrap et font-awesome:
+
+	@import "~boostrap/dist/css/bootstrap.min.css";
+	@import "~font-awesome/css/font-awesome.min.css";
+
+2 - Création folder "products"
+
+3 - Création du fichier html "product-list.component.html"
+
+4 - Création de notre template Html:
+
+* Ajout du style **Card bootstrap** [Card](https://getbootstrap.com/docs/4.5/components/card/)
+
+* Ajout du system **Grid** bootstrap [Grid](https://getbootstrap.com/docs/4.5/layout/grid/#offset-classes)
