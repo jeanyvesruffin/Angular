@@ -165,80 +165,64 @@ Il est composé d'un template (View), class (Class) et de metadata (Annotation).
 
 ![Exemple Metadata](Documents/metadata.bmp)
 
-## Creation Component
-
-Nous allons remplacer le component "root" app.component.ts par:
-
-	import { Component } from '@angular/core';
-	@Component({
-	selector: 'pm-root',
-	template:`
-	<div>
-		<h1>{{pageTitle}}</h1>
-		<div>My First Component</div>
-	</div>
-	`
-	})
-	export class AppComponent  {
-	pageTitle: string = 'Gestion entreprise';
-	}
-
-**Attention** nous injectons ici directement le templet html à l'aide de `` (back ticks not quotes, touche alt+7)
-
-### **CheckList Component: Class**
-
-1 - Donner un nom clair precede de Component (ex: AppComponent), syntaxe PascalCasing avec le mot clé export
-
-	export class AppComponent  {
-	}
-
-2 - Ajouter les attributs que l'on type, les valeurs par défaut, syntaxe camelCase commenceant par une minuscule
-
-	export class AppComponent  {
-	pageTitle: string = 'Gestion entreprise';
-	}
-
-3 - Créer les methodes
-
-### **CheckList Component: Decoration -> Metadata**
-
-1 - Ajouter la decoration au component: Prefixe avec @; suffixe avec ().
-
-	@Component()
-
-2 - Ajouter un selecteur (Directive html)  qui sera le nom de notre composant sur la balise HTML, prefixe pour plus de clarté.
-
-	@Component({
-	selector: 'pm-root',
-	})
-
-3 - Ajouter un template qui sera le HTML injecté dans le navigateur soit par injection soit en important
-
-	@Component({
-	selector: 'pm-root',
-	template:`
-	<div>
-		<h1>{{pageTitle}}</h1>
-		<div>My First Component</div>
-	</div>
-	`
-	})
-
-## Templates, interpolation et directive
+## Creation Component/ Templates, interpolation et directive
 
 Exemple: Creation d'un component gérant une liste de produit.
 
-1 - Importer dans le fichier .css les librairie bootstrap et font-awesome:
+### Création component
+
+Nous allons ajouter le component "pm-products" product-list.component.
+
+1 - Création folder "products"
+
+2 - Céation du component "product-list.component.ts":
+
+import { Component } from '@angular/core';
+@Component({
+	selector: 'pm-products',
+	templateUrl: './product-list.component.html'
+	})
+export class ProductListComponent  {
+    pageTitle: string = 'Product List';
+}
+
+3 - Importer dans le fichier .css les librairie bootstrap et font-awesome:
 
 	@import "~boostrap/dist/css/bootstrap.min.css";
 	@import "~font-awesome/css/font-awesome.min.css";
 
-2 - Création folder "products"
+4 - Création du templet dans le fichier html "product-list.component.html".
 
-3 - Création du fichier html "product-list.component.html"
+* Ajout du style **Card** bootstrap [card](https://getbootstrap.com/docs/4.5/components/card/)
+* Ajout du systeme **Grid** bootstrap [grid](https://getbootstrap.com/docs/4.5/layout/grid/#offset-classes)
+* Ajout du system **Table responsive** bootstrap [table-responsive](https://getbootstrap.com/docs/4.5/content/tables/#breakpoint-specific/)
+* Ajout d'un **Tableau** bootstrap [table](https://getbootstrap.com/docs/4.5/content/tables/)
+* Ajout d'un **Bouton** bootstrap [btn](https://getbootstrap.com/docs/4.5/components/buttons/#button-tags/)
 
-4 - Création de notre template Html:
+5 - Utiliser le component comment directive dans app.commponent.ts.
 
-* Ajout du style **Card bootstrap** [Card](https://getbootstrap.com/docs/4.5/components/card/)
+	@Component({
+		selector: 'pm-root',
+		template: `
+		<div>
+			<h1>{{pageTitle}}</h1>
+			<div>My First Component</div>
+			<pm-products></pm-products>
+		</div>
+		`
+	})
 
-* Ajout du system **Grid** bootstrap [Grid](https://getbootstrap.com/docs/4.5/layout/grid/#offset-classes)
+6 - Ajouter le component au module concerné app.module.ts
+
+	...
+	import { ProductListComponent } from './products/product-list.component';
+	...
+	@NgModule({
+	declarations: [
+		...
+		ProductListComponent
+	],
+	...
+	})
+
+7 - Binding avec interpolation
