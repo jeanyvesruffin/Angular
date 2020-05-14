@@ -1,10 +1,10 @@
 # Angular
 
-Angular est un framework JavaScript qui nous aide é creer des sites Web interactifs.
+Angular est un framework JavaScript qui nous aide à creer des sites Web interactifs.
 
 Angular utilise la syntaxe TypeScript qui suis les normes es7+, ainsi que HTML et CSS.
 
-## Part 1
+## Part 1: Introduction
 ### Version
 
 **AngularJS** inclus toutes les versions Angular 1.x.
@@ -105,7 +105,7 @@ Angular contient des outils de test telques:
 		bootstrap: [ AppComponent ]
 	})
 
-## Quick starter
+## Part 2: Quick starter
 
 Telecharger le projet d'étude à l'adresse url:
 
@@ -116,16 +116,16 @@ Installation préalable de:
 - npm : Gestionnaire de package de Node.
 - Angular, Angular CLI, TypeScript et testing tools, linters, etc...
 
-Les dependances declarees avec leur version dans le fichier **package.json**.
+Les dependances declarees avec leur version sont dans le fichier **package.json**.
 
-Une fois le projet recuperer ouvrir un terminal, allez à la racine du projet puis faire
+Une fois le projet recupere ouvrir un terminal, allez à la racine du projet puis faire
 
 	npm install
 	npm start
 
 ### Modifier le texte d'accueil
 
-Il faut modifier le fichier src/app/app.component.html
+Il faut modifier le fichier src/app/app.component.html.
 La page du navigateur se met à jour automatiquement.
 
 ### Stoper la compilation
@@ -175,15 +175,41 @@ Nous allons remplacer le component "root" app.component.ts par:
 
 **Attention** nous injectons ici directement le templet html à l'aide de `` (back ticks not quotes, touche alt+7)
 
-**CheckList** pour la création d'un component il faut:
-- Class -> Code:
+**CheckList Component: Class**
 
-Donner un nom clair precede de Component (ex: AppComponent), syntaxe PascalCasing avec le mot clé export
+1 - Donner un nom clair precede de Component (ex: AppComponent), syntaxe PascalCasing avec le mot clé export
 
 	export class AppComponent  {
 	}
 
+2 - Ajouter les attributs que l'on type, les valeurs par défaut, syntaxe camelCase commenceant par une minuscule
 
-- Decoration -> Metadata
-- Import se que l'on a besoin dans le module associé
+	export class AppComponent  {
+	pageTitle: string = 'Gestion entreprise';
+	}
 
+3 - Créer les methodes
+
+**CheckList Component: Decoration -> Metadata**
+
+1 - Ajouter la decoration au component: Prefixe avec @; suffixe avec ().
+
+	@Component()
+
+2 - Ajouter un selecteur (Directive html)  qui sera le nom de notre composant sur la balise HTML, prefixe pour plus de clarté.
+
+	@Component({
+	selector: 'pm-root',
+	})
+
+3 - Ajouter un template qui sera le HTML injecté dans le navigateur soit par injection soit en important
+
+	@Component({
+	selector: 'pm-root',
+	template:`
+	<div>
+		<h1>{{pageTitle}}</h1>
+		<div>My First Component</div>
+	</div>
+	`
+	})
