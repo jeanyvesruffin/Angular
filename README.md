@@ -6,14 +6,6 @@ Angular utilise la syntaxe TypeScript qui suis les normes es7+, ainsi que HTML e
 
 Nous recupererons des styles sur https://getbootstrap.com/ et pour les icones utiliserons la librairie awesome https://fontawesome.com
 
-Installation bootstrap:
-
-	npm install bootstrap
-
-Installation font-awesome:
-
-	npm install font-awesome
-
 ## Part 1: Introduction
 ### Version
 
@@ -128,9 +120,14 @@ Installation préalable de:
 
 Les dependances declarees avec leur version sont dans le fichier **package.json**.
 
-Une fois le projet recupere ouvrir un terminal, allez à la racine du projet puis faire
+Une fois le projet recupere ouvrir un terminal, allez à la racine du projet puis faire.
 
 	npm install
+	npm install bootstrap
+	npm install font-awesome
+
+Tapper enfin la ligne de commande suivante pour compiler et executer le programme dans votre navigateur.
+
 	npm start
 
 ### Modifier le texte d'accueil
@@ -226,3 +223,56 @@ export class ProductListComponent  {
 	})
 
 7 - Binding avec interpolation
+
+![Exemple Interpolation](Documents/Interpolation.bmp)
+
+8 - Directive et directive integre
+
+Exemple de directive dans le fichier Html:
+
+	<directive></directive>
+
+Correspondant à la directive du component:
+
+	@Component({
+		selector: 'directive',
+		...
+	})
+
+Exemple de directive integre:
+
+	*ngIf
+	*ngFor
+	*ngSwitchCase
+	*mgModel ...
+
+*Remarque: * signifie que c'est une directive structure
+
+Exemple de directive integre ***ngIf** dans le fichier Html
+
+	<table class="table" *ngIf="products && products.length">
+           
+Cette directive signifie que si products et products.length retourne vrai alors on affiche la list (Produit, Code, Disponibilité ...) dans le cas contraire elle ne sera pas affichée.
+
+Nous avons donc hardcode une list de produit, celle-ci serait exposé à travers une api coté back.
+
+Dans le fichier product-list.component.ts
+
+	...
+	export class ProductListComponent {
+		...
+		products: any[] = [
+			{
+				"productId": 2,
+				"productName": "Garden Cart",
+				"productCode": "GDN-0023",
+				"releaseDate": "March 18, 2019",
+				"description": "15 gallon capacity rolling garden cart",
+				"price": 32.99,
+				"starRating": 4.2,
+				"imageUrl": "assets/images/garden_cart.png"
+			}
+			...
+		];
+	}
+
