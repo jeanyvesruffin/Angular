@@ -294,3 +294,271 @@ Rappel **for...of vs for...in**
 ![for...of vs for...in](Documents/forInVsForOf.bmp)
 
 ## Data binding et pipes
+
+### Property binding
+
+	<img [src]="product.imageUrl">
+
+Dans cet exemple le binding se fait à l'aide des [] suivi de la source mais peut etre fait avec une expression entre {{}} ou par interpolation.
+
+		<img src={{product.imageUrl}>
+		<img src="http://openclipart.org/{{product.imageUrl}}">
+
+		<img [src]="product.imageUrl"
+            [title]="product.productName"
+            [style.width.px]="imageWidth">
+
+### Event binding
+
+Ressource utile repectoriant tous les events possible: 
+https://developer.mozilla.org/en-US/docs/web/events
+
+	<button (click)="toggleImage()">
+
+click est le target event et toggleImage le template Statement.
+
+1 - Ecrir la methode toggleImage dans product-list.component.ts
+
+	toggleImage(): void {
+		this.showImage = !this.showImage;
+	};
+
+2 - Mettre en place l'event sur le bouton dans product-list.component.html
+
+	<button class="btn btn-primary" (click)="toggleImage()">
+		Montrer image
+	</button>
+
+3 - Puis onajoute la logic qui affichera ou pas la list suivant l'etat du bouton dans product-list.component.html.
+
+	<tr *ngFor='let product of products'>
+		<td>
+			<img *ngIf="showImage"
+			[src]="product.imageUrl"
+			[title]="product.productName"
+			[style.width.px]="imageWidth"
+			[style.margin.px]="imageMargin">
+		</td>
+	...
+
+4 - Nous allons enfin binding le text du bouton afin qu'il change suivant l'evenement click.
+
+	<button class="btn btn-primary"
+		(click)="toggleImage()">
+			{{ showImage ? "Cacher":"Montrer" }} image
+	</button>
+
+### Liaison bidirectionnelle
+
+Exemple sur le filtre.
+
+Nous utiliserons la directive ngModel [(ngModel)].
+
+1 - Ajouter la propriete dans product-list.component.ts
+
+	listFilter: string = "cart"
+
+2 - Ajouter la directive ngModel dans product-list.component.html.
+
+  [(ngModel)]="listFilter"
+
+3 - Puis utiliser l'interpolation pour changer le textr saisi
+
+	<h4>Filtré par : {{listFilter}}</h4>
+
+4 - Nous devons enfin import le FormModule dans app.module.ts
+
+	...
+	import { FormsModule } from '@Angular/forms';
+	...
+	@NgModule({
+	...
+		imports: [
+		...
+			FormsModule
+		],
+	...
+
+### Transforme datas avec des pipes
+
+Exemple de specification lowercase:
+
+	{{product.productCode | lowercase }}
+
+1 - Nous voulons par exemple que le nom du produit commence par une majuscule alors dans product-list.component.html.
+
+	<img [src]='product.imageUrl'
+		 [title]='product.productName | uppercase' >
+
+Ou s'il on veux le prix en minuscule
+
+	{{ product.price | currency | lowercase }}
+
+Et en $, avec comme parametres 'USD', symbol et digit info (minimum digit) :
+
+	{{ product.price | currency: 'USD':'symbol':'1.2-2' | lowercase }}
+
+1.2 signifie 1 digit à gauche, 2 deux digit a gauche et limité à 2 digit à gauche
+
+	...
+	<td>{{ product.productCode | lowercase }}</td>
+	<td>{{ product.price | currency:'EUR':'symbol':'1.2-2' }}</td>
+	...
+
+![data binding](Documents/dataBinding.bmp)
+
+## Interface
+
+1 - Exemple creer un fichier product.ts dans lequel nous ecrirons notre interface :
+
+	export interface IProduct {
+		productId: number;
+		productName: string;
+		productCode: string;
+		releaseDate: Date;
+		price: number;
+		description: string;
+		startRating: number;
+		imageUrl: string;
+		calculateDiscount(percent: number): number;
+	}
+
+2 - Puis nous remplacerons le type any du parametre products par l'interface dans product-list.component.ts
+
+	...
+	import { IProduct } from './product';
+	...
+	product: IProduct[]
+	...
+
+Le typage fort permet de lever les eventelles erreur de syntaxe car ils doivent parfaitement match avec l'interface.
+
+3 - Nous allons maintenant creer la class implementant l'interface dans product.ts avec son constructeur.
+
+## Encapsulation du style Css au component
+
+![Encapsulation Css](Documents/encapsulationCss.bmp)
+
+1 - On creer le fichier css associé au component products
+
+	thead{
+		color: #337AB7
+	}
+
+2 - Puis nous ajoutons le style à notre component. Nous pouvons ici y ajouter autant de feuilles de style que l'on souhaite:
+
+	@Component({
+		...
+		styleUrls:['./product-list.component.css']
+	})
+
+## Cycle de vie d'un component
+
+![Cycle de vie d'un component](Documents/lifeCycle.bmp)
+
+OnInit: Effectue l'initialisation du component, avec la récupération des datas.
+
+Onchanges: Effectue une action apres modification des proprietes d'entree.
+
+OnDestry: Effectue le nettoyage
+
+1 - nous appelons l'interface dans le component
+	...
+	import { Component, OnInit } from '@angular/core';
+	...
+	export class ProductListComponent implements OnInit {
+		...
+	ngOnInit(): void {
+		console.log('Initialisation component list produit');
+	};
+		...
+	}
+
+Nous verrons s'afficher le message d'initialisation dans la console.log
+
+## Transfoormation des datas avec des custom pipes
+
+Nous allons remplacer les tirets (-) des codes produits par des espaces.
+
+1 - Dans le dossier shared creer un fichier convert-to-spaces.pipe.ts
+
+	import { Pipe, PipeTransform } from '@angular/core';
+	@Pipe({
+		name: 'convertToSpaces'
+	})
+	export class ConvertToSpacesPipe implements PipeTransform {
+		transform(value: string, character: string): string {
+			return value.replace(character, ' ');
+		}
+	}
+
+2 - Utilisation du pipe dans product-list.component.html
+
+	<td>{{ product.productCode | lowercase | convertToSpaces: '-' }}</td>
+
+3 - Ajouter le custom pipe dans le app.module.ts
+
+	...
+	import { ConvertToSpacesPipe } from './shared/convert-to-spaces.pipe';
+	@NgModule({
+		declarations: [
+		...
+		ConvertToSpacesPipe
+		],
+	...
+
+**Une recompilation est à faire lors que l'on effectue un changement dans app.module.ts**
+
+## Getter
+
+![Getter](Documents/getter.bmp)
+
+## Setter
+
+![Setter](Documents/setter.bmp)
+
+## getter/ setter
+
+ ![Getter & setter](Documents/getterSetter.bmp)
+
+## Filtrer un list
+
+1 - Declarer la propriété suivante dans product-list.component.ts:
+
+	filteredProducts: IProduct[];
+
+2 - Generer getter & setter de listFilter
+
+	private _listFilter: string;
+	public get listFilter(): string {
+		return this._listFilter;
+	}
+	public set listFilter(value: string) {
+		this._listFilter = value;
+	}
+
+3 - Puis on ajoute à la methode set listFilter la nouvelle attribution de valuer a filteredProducts sur condition que listFilter soit renseigné.
+
+	this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
+
+4 - On creer la methodeperformFilter()
+
+	performFilter(filterBy: string): IProduct[] {
+		// filterBy est insensitive à la casse (toLocaleLowerCase())
+		filterBy = filterBy.toLocaleLowerCase();
+		return this.products.filter((product: IProduct) => product.productName.toLocaleLowerCase().indexOf(filterBy) !== -1);
+	}
+
+Plus d'information: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+
+5 - on creer un constructeur pour initialiser le filtre:
+
+	constructor(){
+		this.filteredProducts = this.products;
+		this.listFilter = 'cart'
+	}
+
+6 - On change dans le templet la directive *ngFor pour y bind le filtre
+
+	<tr *ngFor='let product of filteredProducts'>
+	
