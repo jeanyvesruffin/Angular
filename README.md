@@ -476,7 +476,7 @@ OnDestry: Effectue le nettoyage
 
 Nous verrons s'afficher le message d'initialisation dans la console.log
 
-## Transfoormation des datas avec des custom pipes
+## Transformation des datas avec des custom pipes
 
 Nous allons remplacer les tirets (-) des codes produits par des espaces.
 
@@ -521,7 +521,7 @@ Nous allons remplacer les tirets (-) des codes produits par des espaces.
 
  ![Getter & setter](Documents/getterSetter.bmp)
 
-## Filtrer un list
+## Filtrer une list
 
 1 - Declarer la propriété suivante dans product-list.component.ts:
 
@@ -561,4 +561,190 @@ Plus d'information: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refe
 6 - On change dans le templet la directive *ngFor pour y bind le filtre
 
 	<tr *ngFor='let product of filteredProducts'>
+
+## Construction d'un component imbriqué (poupé russe) Nested Component
+
+Exemple sur la colonne Evaluation nous y ajouterons un component de selection representé par des etoiles.
+
+### Construction component imbriqué
+ ![Nested component](Documents/nestedComponent.bmp)
+
+1 - Creation star.component.ts avec ces fichiers html et css associés
+
+* star.component.html
+
+	<div class="crop"
+		[style.width.px]="starWidth"
+		[title]="rating">
+	<div style="width: 75px">
+		<span class="fa fa-star"></span>
+		<span class="fa fa-star"></span>
+		<span class="fa fa-star"></span>
+		<span class="fa fa-star"></span>
+		<span class="fa fa-star"></span>
+	</div>
+	</div>
+
+* star.component.css
+
+	.crop {
+	overflow: hidden;
+	}
+	div {
+	cursor: pointer;
+	}
+
+* star.component.ts
+
+Rappel:
+
+ 1. Creation @Component + import
+ 2. A l'interieur de @Component:
+	* selector
+	* templateUrl
+	* styleUrls
+ 3. Declaration de la classe
+
+	export class NameComponent {
+		attribut
+		methode
+		...
+	}
+
+ 4. et (ou) implement un event (ex: onchange) sur la class + implementation interface
+
+	export class NameComponent implements OnChanges {
+		attribut;
+		// retour attendu de la methode sans parametre
+		ngOnChange():void{}
+	}
+
+Exemple:
+
+	import { Component, OnChanges } from '@angular/core';
+	@Component({
+		selector: 'pm-star',
+		templateUrl: './star.component.html',
+		styleUrls: ['./star.component.css']
+	})
+	export class StarComponent implements OnChanges {
+		//Propriets, qui seront bind sur le html à l'aide des []
+		rating: number = 4;
+		starWidth: number = 4;
+		ngOnChanges(): void {
+			this.starWidth = this.rating * 75 / 5;
+		}
+	}
+
+5. Toujours finir par renseigner le app.module
+
+	@NgModule({
+  	declarations: [
+    ...
+    StarComponent
+  ],
+  ...
+  
+### Utilisation du component imbriqué
+
+- On remplace {{ product.ranking }} par la directive pm-star est l'atttribut bind [rating]='product.starRating'
+
+	<td><pm-start [rating]='product.starRating'></pm-start></td>
+
+### Passer des datas au component imbriqué en utilisant @Input
+
+Nous devons juste ajouter la decoration @Input() devant l'attribut que l'on desire mettre dans le composant imbriqué
+
+### Passer des datas au component imbriqué en utilisant @Output
+Nous desirons que l'evaluation soit retourné dans le titre de la page
+
+ 1. On ajoute l'event dans le fichier html
+
+	<div class="crop"
+     [style.width.px]="starWidth"
+     [title]="rating"
+     (click)="onClick()">
+
+ 2. On cree la methode onClick avec un console.log par exemple
+
+	onClick():void{
+        console.log("L'evaluation de ${this.rating} est selectionné")
+    }
+
+ 3. Ajouter la decoration @Output() devant l'attribut que l'on souhaite surveiller, attribut membre à la classe EventEmitter, afin qu'il nous retourne son changement d'état.
+
+ 	@Output() ratingClicked: EventEmitter<string> = new EventEmitter<string>();
+
+ 4. On utilise cet attribut en utilisant la methode emit d'EventEmitter
+
+	this.ratingClicked.emit(`L'evaluation de ${this.rating} est selectionné`)
+
+ 5. Nous pouvons desormais indiquer notre attribut dans product-list.component.html en lui donnant la valeur retourné par la methode onRatingClicked($event)
+
+	<td><pm-star [rating]='product.starRating' 
+                 (ratingClicked)='onRatingClicked($event)'>
+		</pm-star></td>
+
+ 6. On cree la methode onRatingClicked($event) dans product-list.component.ts, ce
+
+## Injection de services et de depenences
+
+### Construction de service (utile pour logging initialiser des datas...)
+Un service doit etre independant et autonome.
+Par exemple service de logging.
+
+Exemple de service de data de produit 
+
+ 1. Create la classe service
+ 2. definir les metadata avec les decorations
+ 3. Importer se dont on a besoin
+
+- Creer nouveau file product.service.ts dans le dossier product
+
+	import { Injectable } from '@angular/core';
+	import { IProduct } from './product'
+
+	@Injectable()
+	export class ProductService {
+		getProducts(): IProduct[] {
+			return [
+				{
+					"productId": 2,
+					"productName": "Garden Cart",
+					"productCode": "GDN-0023",
+					"releaseDate": "March 18, 2019",
+					"description": "15 gallon capacity rolling garden cart",
+					"price": 32.99,
+					"starRating": 4.2,
+					"imageUrl": "assets/images/garden_cart.png"
+				}
+			];
+		}
+	}
+
+- Enregistrer votre service
+
+	@Injectable({
+		providedIn: 'root'
+	})
+
+
+- Puis utiliser le service en l'injectant dans le constructeur dans product-list.component.ts.
+
+	constructor(private productService: ProductService){
+		this.filteredProducts = this.products;
+		this.listFilter = 'cart'
+	}
+
+Puis en l'initialisant dans
+
+	ngOnInit(): void {
+		this.products = this.productService.getProducts();
+		console.log('Initialisation component list produit');
+	};
+
+## Récupération de données à l'aide de Http
+
+	 
 	
+    

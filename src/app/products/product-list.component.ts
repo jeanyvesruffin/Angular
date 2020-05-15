@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from './product';
+import { ProductService } from './product.service';
 @Component({
 	selector: 'pm-products',
 	templateUrl: './product-list.component.html',
@@ -20,7 +21,7 @@ export class ProductListComponent implements OnInit {
 	}
 	filteredProducts: IProduct[];
 	products: IProduct[] = [
-		{
+		/*{
 			"productId": 2,
 			"productName": "Garden Cart",
 			"productCode": "GDN-0023",
@@ -39,19 +40,23 @@ export class ProductListComponent implements OnInit {
 			"price": 8.9,
 			"starRating": 4.8,
 			"imageUrl": "assets/images/hammer.png"
-		}
+		}*/
 	];
 	toggleImage(): void {
 		this.showImage = !this.showImage;
 	};
 	ngOnInit(): void {
+		this.products = this.productService.getProducts();
 		console.log('Initialisation component list produit');
 	};
 	performFilter(filterBy: string): IProduct[] {
 		filterBy = filterBy.toLocaleLowerCase();
 		return this.products.filter((product: IProduct) => product.productName.toLocaleLowerCase().indexOf(filterBy) !== -1);
-	}
-	constructor(){
+	};
+	onRatingClicked(message: string): void{
+		this.pageTitle ='List de produit '+ message;
+	};
+	constructor(private productService: ProductService){
 		this.filteredProducts = this.products;
 		this.listFilter = 'cart'
 	}
