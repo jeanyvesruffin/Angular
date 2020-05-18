@@ -89,7 +89,7 @@ export class AboutComponent {
 
 - Zone.js et changement de detection
 
-Zone.js permet d'avoir des operations qui s'execute de facon asynchrone, lors d'une interaction utilisateur, lors d'une requete http, suite à un timers ...
+Zone.js permet d'avoir des operations qui s'execute de facon asynchrone, lors d'une interaction utilisateur, lors d'une requete http, suite à un timers 
 
 - Rendering Targets: Rendu des elements
 
@@ -110,14 +110,14 @@ Angular contient des outils de test telques:
 * MockBackend
 
 ### Module API
-
+```js
 	@NgModule({
 		declarations: [ AppComponent, HomeComponent ],
 		imports: [ BrowserModule ],
 		providers: [ Auth ],
 		bootstrap: [ AppComponent ]
 	})
-
+```
 ## Part 2: Quick starter
 
 Telecharger le projet d'étude à l'adresse url:
@@ -127,7 +127,7 @@ https://github.com/DeborahK/Angular-GettingStarted
 Installation préalable de:
 
 - npm : Gestionnaire de package de Node.
-- Angular, Angular CLI, TypeScript et testing tools, linters, etc...
+- Angular, Angular CLI, TypeScript et testing tools, linters, etc
 
 Les dependances declarees avec leur version sont dans le fichier **package.json**.
 
@@ -215,7 +215,6 @@ Dans le fichier html "product-list.component.html".
 	@Component({
 		selector: 'pm-root',
 		template: `
-		...
 			<pm-products></pm-products>
 		</div>
 		`
@@ -234,15 +233,11 @@ Dans le fichier app.component.HTML
 ```
 2 - Ajouter le component dans le module concerné app.module.ts
 ```js
-	...
 	import { ProductListComponent } from './products/product-list.component';
-	...
 	@NgModule({
-	declarations: [
-		...
-		ProductListComponent
-	],
-	...
+		declarations: [
+			ProductListComponent
+		],
 	})
 ```
 ### Binding avec interpolation
@@ -257,7 +252,6 @@ Correspondant à la directive du component:
 ```js
 	@Component({
 		selector: 'directive',
-		...
 	})
 ```
 Exemple de directive integre:
@@ -265,7 +259,7 @@ Exemple de directive integre:
 	*ngIf
 	*ngFor
 	*ngSwitchCase
-	*mgModel ...
+	*mgModel 
 
 *Remarque:* l'asterisque signifie que c'est une directive structurel d'Angular.
 
@@ -273,15 +267,13 @@ Exemple de directive integre ***ngIf** dans le fichier Html
 ```html
 	<table class="table" *ngIf="products && products.length">
 ```           
-Cette directive signifie que si products et products.length retourne vrai alors on affiche la list (Produit, Code, Disponibilité ...) dans le cas contraire elle ne sera pas affichée.
+Cette directive signifie que si products et products.length retourne vrai alors on affiche la list (Produit, Code, Disponibilité ) dans le cas contraire elle ne sera pas affichée.
 
 Nous avons donc hardcode une list de produit, celle-ci serait exposé à travers une api coté back.
 
 Dans le fichier product-list.component.ts
 ```js
-	...
 	export class ProductListComponent {
-		...
 		products: any[] = [
 			{
 				"productId": 2,
@@ -293,7 +285,6 @@ Dans le fichier product-list.component.ts
 				"starRating": 4.2,
 				"imageUrl": "assets/images/garden_cart.png"
 			}
-			...
 		];
 	}
 ```
@@ -310,9 +301,9 @@ Exemple de directive integre ***ngFor** dans le fichier Html
 ```        
 Cette directive permet d'afficher pour chaque produit de produits : productName, productCode, releaseDate, price, starRating.
 
-Rappel **for...of vs for...in**
+Rappel **forof vs forin**
 
-![for...of vs for...in](Documents/forInVsForOf.bmp)
+![forof vs forin](Documents/forInVsForOf.bmp)
 
 ## Data binding et pipes
 
@@ -359,7 +350,7 @@ click est le target event et toggleImage le template Statement.
 			[style.width.px]="imageWidth"
 			[style.margin.px]="imageMargin">
 		</td>
-	...
+	
 ```
 4 - Nous allons enfin binding le text du bouton afin qu'il change suivant l'evenement click.
 ```html
@@ -390,16 +381,11 @@ Nous utiliserons la directive ngModel [(ngModel)].
 ```
 4 - Nous devons enfin import le FormModule dans app.module.ts
 ```js
-	...
-	import { FormsModule } from '@Angular/forms';
-	...
+	import { FormsModule } from '@angular/forms';
 	@NgModule({
-	...
 		imports: [
-		...
 			FormsModule
 		],
-	...
 ```
 ### Transformer les datas avec des pipes
 
@@ -422,10 +408,8 @@ Et en $, avec comme parametres 'USD', symbol et digit info (minimum digit) :
 ```
 1.2 signifie 1 digit à gauche, 2 deux digit a gauche et limité à 2 digit à gauche
 ```html
-	...
 	<td>{{ product.productCode | lowercase }}</td>
 	<td>{{ product.price | currency:'EUR':'symbol':'1.2-2' }}</td>
-	...
 ```
 ![data binding](Documents/dataBinding.bmp)
 
@@ -447,11 +431,8 @@ Et en $, avec comme parametres 'USD', symbol et digit info (minimum digit) :
 ```
 2 - Puis nous remplacerons le type any du parametre products par l'interface dans product-list.component.ts
 ```js
-	...
 	import { IProduct } from './product';
-	...
 	product: IProduct[]
-	...
 ```
 Le typage fort permet de lever les eventelles erreurs de syntaxes car les attributs membre de la classe doivent parfaitement match avec ceux de l'interface.
 
@@ -485,7 +466,6 @@ Le typage fort permet de lever les eventelles erreurs de syntaxes car les attrib
 2 - Puis nous ajoutons le style à notre component. Nous pouvons ici y ajouter autant de feuilles de style que l'on souhaite:
 ```js
 	@Component({
-		...
 		styleUrls:['./product-list.component.css']
 	})
 ```
@@ -502,15 +482,11 @@ OnDestry: Effectue le nettoyage
 1 - Par exemple, nous pouvons utiliser l'implementation OnInit dans la classe ProductListComponent afin de définir la methode ngOnInit et par la suite initialiser la liste de produit.
 
 	```js
-	...
 	import { Component, OnInit } from '@angular/core';
-	...
 	export class ProductListComponent implements OnInit {
-		...
-	ngOnInit(): void {
-		console.log('Initialisation component list produit');
-	};
-		...
+		ngOnInit(): void {
+			console.log('Initialisation component list produit');
+		};
 	}
 	```
 
@@ -538,14 +514,11 @@ Nous allons remplacer les tirets (-) des codes produits par des espaces.
 ```
 3 - Ajouter le custom pipe dans le app.module.ts
 ```js
-	...
 	import { ConvertToSpacesPipe } from './shared/convert-to-spaces.pipe';
 	@NgModule({
 		declarations: [
-		...
 		ConvertToSpacesPipe
 		],
-	...
 ```
 **ATTENTION : Une recompilation est à faire lorsque l'on effectue un changement dans app.module.ts**
 
@@ -650,7 +623,6 @@ Rappel:
 	export class NameComponent {
 		attribut
 		methode
-		...
 	}
 ```
  4. et (ou) implement un event (ex: onchange) sur la class + implementation interface
@@ -680,12 +652,11 @@ Exemple:
 ```
 5. Toujours finir par renseigner le app.module
 ```js
-	@NgModule({
-  	declarations: [
-    ...
-    StarComponent
-  ],
-  ...
+@NgModule({
+	declarations: [
+	StarComponent
+	],
+})
 ```
 ### Utilisation du component imbriqué
 
@@ -704,9 +675,9 @@ Nous desirons que l'evaluation soit retourné dans le titre de la page
  1. On ajoute l'event dans le fichier html
 ```html
 	<div class="crop"
-     [style.width.px]="starWidth"
-     [title]="rating"
-     (click)="onClick()">
+     	[style.width.px]="starWidth"
+     	[title]="rating"
+     	(click)="onClick()">
 ```
  2. On cree la methode onClick avec un console.log par exemple
 ```js
@@ -736,7 +707,7 @@ Nous desirons que l'evaluation soit retourné dans le titre de la page
 ```
 ## Injection de services et de dependences
 
-### Construction de service (utile pour logging initialiser des datas...)
+### Construction de service (utile pour logging initialiser des datas)
 Un service doit etre independant et autonome.
 Par exemple service de logging.
 
@@ -750,7 +721,6 @@ Exemple de service de data de produit
 ```js
 	import { Injectable } from '@angular/core';
 	import { IProduct } from './product'
-
 	@Injectable()
 	export class ProductService {
 		getProducts(): IProduct[] {
@@ -813,13 +783,10 @@ Par convention l'observable est noté, par exemple:
 	import { HttpClientModule } from '@angular/common/http';
 	@NgModule({
 		declarations: [
-		...
 		],
 		imports: [
-		...
 			HttpClientModule
 		],
-	...
 ```
  2. Dans le fichier product.service.ts, creer un constructeur prenant en parametre une instance d'HttpClient() + declarer un attribut pointant sur l'url de l'api (ici l'api est en local).
  
@@ -827,13 +794,11 @@ Par convention l'observable est noté, par exemple:
 ```json
 	"projects": {
 		"APM": {
-		...
 			"assets": [
 			"src/favicon.ico",
 			"src/assets",
 			"src/api"
 			],
-		...
 ```
 
 Dans le fichier product.service.ts
@@ -844,7 +809,6 @@ Dans le fichier product.service.ts
 On peux desormais supprimer les produits hard code pour les remplacer par la list observé telquel:
 ```js
 	import { Observable } from 'rxjs';
-	...
 	export class ProductService {
 		private productUrl = 'api/products/products.json';
 		constructor(private http: HttpClient){}
@@ -886,9 +850,7 @@ Pour toutes envoi de requete http, il est nécessaire de mettre en place les Exc
 Dans product-list.component.ts. this.products est en erreur.
 En effet suite à la mise en place de l'observable, this.productService.getProduct() nous retournera un type Observable<IProduct[]>, changeons cela:
 ```js
-	...
 	errorMessage: string;
-	...
 	ngOnInit(): void {
 		this.productService.getProducts().subscribe({
 			next: products => this.products = products,
@@ -896,7 +858,7 @@ En effet suite à la mise en place de l'observable, this.productService.getProdu
 		});
 		console.log('Initialisation component list produit');
 	};
-	...
+	
 ```
 Le programme est en erreur ??? Voyons le cheminement:
 
@@ -906,7 +868,7 @@ Le programme est en erreur ??? Voyons le cheminement:
 2. ProductService nous retourne une list d'Observable<IProduct[]>
 3. Nous souscrivons l'observable
 4. La requete Get est soumise puis nous executons la ligne suivante (next ou error 3.)
-5. L'executions nous rempli alors notre filteredProducts mais nous n'avons pas de data...
+5. L'executions nous rempli alors notre filteredProducts mais nous n'avons pas de data
 
 Dans un second temps
 
@@ -932,3 +894,168 @@ Le problème est ici il faut que nous notifions le fait de vouloir remplir notre
 	};
 ```
 Le programme fonctionne et nous pouvons voir dans la console de debug du navigateur, la reponse, le json.
+
+## Notions de navigation et de routage
+
+Dans cette partie nous allons creer 2 nouveaux components un pour afficher le detail d'un produit et un pour afficher une page d'accueil. Nous aborderons anfin le system de navigation et de routage de ces 4 components (app,product-list, product-detail et welcom)
+
+### Creation du component product-detail
+
+Pour cela nous utiliserons, pour la 1er fois Houah!!, Angular.cli
+Allez dans la racine du projet avec terminal puis taper la commande suivante qui permettra de recuperer le package angular/cli:
+
+	npm install -g @angular/cli
+
+Taper ensuite la commande suivante pour generer un nouveau component appelé product-detail (g pour general, c pour component suivi du path)
+
+	ng g c products/product-detail
+
+Bug fixe si cela ne fonctionne pas avec le terminal, essayer avec powershell ou gitbash cela peux planter faute de droit d'execution.
+
+Nous avons desormais nos 4 fichiers product-detail.component.css, html, spec.ts et ts
+
+1. Fichier html
+
+```html
+<div class='card'>
+    <div class='card-header'>
+        {{pageTitle + ': ' + product?.productName}}
+    </div>
+</div>
+```
+
+Le ? apres product est une operation de securité pour le navigateur. Car au runtime product sera undefined, le ? evite que cela plante au runtime et retourne juste null, sans vouloir atteindre la propriete manquante.
+**Mais la meilleur idée** est d'utiliser la directive *ngIf, cela afin d'eviter de repeter dans notre template product?.
+
+```html
+<div class='card' *ngIf='product'>
+    <div class='card-header'>
+        {{pageTitle + ': ' + product.productName}}
+    </div>
+</div>
+```
+
+2. Fichier ts
+
+- Nous ajoutons les attributs pageTitle et product avec les imports.
+
+```js
+pageTitle: string ='Detail du produit';
+product: IProduct;
+```
+- Nous retirons le selector car celui-ci est necessaire uniquement lors d'utilisation de nested components
+
+3. On verifie que notre nouveau component soit bien dans le app.module.ts
+
+### Creation du component welcome
+
+Deja cre, mais pas mis dans le app.module.ts. Nous l'ajoutons donc. Nous sommes maintenant pres à creer les routes
+
+## Routing
+
+Est nécessaire pour :
+* Configurer une route pour chaque composant
+* Définir les options / actions
+* Liez une route à chaque option / action
+* Activer une route en fonction de l'action de l'utilisateur
+* L'activation d'une route affiche la vue de ce composant
+
+1. Ajouter au fichier app.module.ts l'import de RouterModule issu de la librairy @angular/Router et ajouter forRoot pour crer et configurer un module avec tous les fournisseurs et directives de routeur. Avec comme 1er parametre un tableau de path et en 2ème parametre useHash à true pour y indiquer les component ou redirection associés. Le useHash est un tricks permettant que cela fonctionne lors du déployement en production. https://medium.com/code-divoire/angular-le-pi%C3%A8ge-du-hash-90212ab883aa
+
+2. Exemple sur index.html. On s'assure que dans le fichier html le tag   <base href="/"> est present
+
+3. On specifie les paths dans le tableau de route du fichier app.module.ts
+```js
+    RouterModule.forRoot([
+      { path: 'products', component: ProductListComponent },
+      { path: 'products/:id', component: ProductDetailComponent },
+      { path: 'welcome', component: WelcomeComponent },
+      { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+      { path: '**', redirectTo: 'welcome', pathMatch: 'full' },
+    ], { useHash: true}),
+  ],
+```
+## Navigation entre les differentes routes
+
+1. On retire la directive <pm-products> du fichier app.component.ts ainsi que le selecteur associé dans product-list.component.ts. puis on indique le nouveau templet dans app.component.ts. (au passage le contenu de app.component.html ne sert plus pour l'instant)
+
+	```html
+    <nav class='navbar navbar-expand navbar-light bg-light'>
+      <a class='navbar-brand'>{{pageTitle}}</a>
+      <ul class='nav nav-pills'>
+        <li><a class='nav-link' [routerLink]="['/welcome']">Home</a></li>
+        <li><a class='nav-link' [routerLink]="['/products']">Product List</a></li>
+      </ul>
+    </nav>
+	```
+
+2. Associé une view à une route. Exemple nous voulons que sur la route welcome. Ajouter cela à notre templet precedent:
+	```html
+    <div class='container'>
+      <router-outlet></router-outlet>
+    </div>
+	```
+<router-outlet></router-outlet> Agit comme un espace réservé qu'Angular remplit dynamiquement en fonction de l'état actuel du routeur.
+
+**Nested Component vs Route** 
+
+![Nested component ou route ???](Documents/NestedComponentVSRoute.bmp)
+
+
+## Technique additionnelle de navigation et routage
+### Passer des paramétres au route
+
+Exemple effectué surt le détail d'un produit, nous indiquerons dans l'url d'id du produit.
+
+1. Nous definitions la route qui sera utilisée dans app.module.ts
+	```js
+	{ path: 'products/:id', component: ProductDetailComponent },
+    ```
+2. On ajoute un link au nom des produit qui utiliseront la route menant au detail du produit.
+	```html
+	<td><a [routerLink]="['/products', product.productId]">{{ product.productName }}</a></td>
+	```
+3. On complet notre component product-detail.component.ts:
+	- on import { ActivatedRoute } from @angular/router
+	- on passe une instance de ActivatedRoute dans le constructeur
+	- on ajoute dans la methode ngOnInit un attribut que l'on initialise à la valeur de l'id passé en paramètre.
+	- on attribut la valeur pageTitle+son id
+	- hardCode le produit dans un premier temps
+```js
+import { ActivatedRoute } from '@angular/router';
+export class ProductDetailComponent implements OnInit {
+  constructor(private route: ActivatedRoute) { }
+  ngOnInit(): void {
+    let id = +this.route.snapshot.paramMap.get('id');
+    this.pageTitle += `: ${id}`;
+	  this.product = {
+      "productId": 1,
+      "productName": "Leaf Rake",
+      "productCode": "GDN-0011",
+      "releaseDate": "March 19, 2019",
+      "description": "Leaf rake with 48-inch wooden handle.",
+      "price": 19.95,
+      "starRating": 3.2,
+      "imageUrl": "assets/images/leaf_rake.png"
+    }
+  }
+}
+```
+
+
+
+
+Le + est un raccourcie javascrript pour convrtir en string
+
+
+### Activer des route avec du code
+
+### Proteger les routes avec des guards
+
+
+
+
+
+
+
+
