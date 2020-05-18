@@ -21,60 +21,71 @@ Nous recupererons des styles sur https://getbootstrap.com/ et pour les icones ut
 
 - Dependency Injection: Injection de dependance
 
-	export class AddNewTagComponent {
-		constructeur(private articleSvc: ArticleService) {}
-	}
-	
+```js
+export class AddNewTagComponent {
+	constructeur(private articleSvc: ArticleService) {}
+}
+```
+
 - Components: Composants
 
 Custom Components:
 
-	@Component({
-		selector: 'add-naw-tag',
-	}
-	export class addNewTagComponent {
-	}
-	
+```js
+@Component({
+	selector: 'add-naw-tag',
+}
+export class addNewTagComponent {
+}
+```
+
 Custom Components - HTML
 
-	<div>
-		<h1>Hello</h1>
-		<add-new-tag></add-new-tag>
-	</div>	
+```html
+<div>
+	<h1>Hello</h1>
+	<add-new-tag></add-new-tag>
+</div>
+```
 
 - Directives: Directives
 
 Directives - HTML
 
-	<div hover-trigger>
-		Hover over me to see
-	</div>
-	<div appear-on-hover>
-		Some content
-	</div>
-
+```html
+<div hover-trigger>
+	Hover over me to see
+</div>
+<div appear-on-hover>
+	Some content
+</div>
+```
 
 - Templates: Modèles
 
 Templates in Components
 	
-	@Component({
+```js
+@Component({
 	selector: 'app-about'
 	templateUrl: './about.component.html'
-	})
-	export class AboutComponent {
-	}
+})
+export class AboutComponent {
+}
+```
 
 Templates in-line Components
 
-	@Component({
+```js
+@Component({
 	selector: 'app-about'
 	template: '<div>
 		<h1>Title</h1>
 	</div>'
-	})
-	export class AboutComponent {
-	}
+})
+export class AboutComponent {
+}
+```
 
 - Zone.js et changement de detection
 
