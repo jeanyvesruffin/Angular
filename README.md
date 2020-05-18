@@ -132,10 +132,11 @@ Installation préalable de:
 Les dependances declarees avec leur version sont dans le fichier **package.json**.
 
 Une fois le projet recupere ouvrir un terminal, allez à la racine du projet puis faire.
-
-	npm install
-	npm install bootstrap
-	npm install font-awesome
+```cmd
+npm install
+npm install bootstrap
+npm install font-awesome
+```
 
 Tapper enfin la ligne de commande suivante pour compiler et executer le programme dans votre navigateur.
 
