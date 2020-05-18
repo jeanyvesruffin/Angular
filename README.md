@@ -486,7 +486,7 @@ OnDestry: Effectue le nettoyage
 
 1 - Par exemple, nous pouvons utiliser l'implementation OnInit dans la classe ProductListComponent afin de définir la methode ngOnInit et par la suite initialiser la liste de produit.
 
-	```javascript
+	```js
 	...
 	import { Component, OnInit } from '@angular/core';
 	...
