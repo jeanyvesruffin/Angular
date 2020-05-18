@@ -65,7 +65,7 @@ export class ProductListComponent implements OnInit {
 		this.pageTitle ='List de produit '+ message;
 	};
 	constructor(private productService: ProductService){
-		/*this.filteredProducts = this.products;
-		this.listFilter = 'cart'*/
+		this.filteredProducts = this.products;
+		this.listFilter = ''
 	}
 }

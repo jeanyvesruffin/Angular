@@ -78,7 +78,7 @@ Templates in-line Components
 
 - Zone.js et changement de detection
 
-Zone.js permet d'avoir des operations qui s'execute de facon asynchrone, lors d'une interaction utilisateur, lors d'une requete http, suite é un timers ...
+Zone.js permet d'avoir des operations qui s'execute de facon asynchrone, lors d'une interaction utilisateur, lors d'une requete http, suite à un timers ...
 
 - Rendering Targets: Rendu des elements
 
@@ -139,16 +139,14 @@ La page du navigateur se met à jour automatiquement.
 
 Faire Ctrl+C dans le terminal
 
-## Modules
+## Export/ Import de classe
 
-Exemple du modules ES 2015.
-
-Export Module dans product.ts:
+Export dans product.ts de la classe Product:
 
 	export class Product{
 	}
 
-Import Module dans product-list.ts
+Import Product dans product-list.ts
 
 	import { Product } from './product'
 
@@ -168,7 +166,7 @@ Exemple: Creation d'un component gérant une liste de produit.
 
 ### Création component
 
-Nous allons ajouter le component "pm-products" product-list.component.
+Nous allons ajouter le component "pm-products" dans le fichier product-list.component.
 
 1 - Création folder "products"
 
@@ -183,7 +181,7 @@ Nous allons ajouter le component "pm-products" product-list.component.
 		pageTitle: string = 'Product List';
 	}
 
-3 - Importer dans le fichier .css les librairie bootstrap et font-awesome:
+3 - Importer dans le fichier styles.css les librairie bootstrap et font-awesome:
 
 	@import "~boostrap/dist/css/bootstrap.min.css";
 	@import "~font-awesome/css/font-awesome.min.css";
@@ -200,7 +198,7 @@ Dans le fichier html "product-list.component.html".
 
 ### Creation directive
 
-1 - Utiliser le component pour y injecter la directive pm-products, dans app.commponent.ts.
+1 - Utiliser le component pour y injecter la directive pm-products, dans app.component.ts.
 
 	@Component({
 		selector: 'pm-root',
@@ -211,7 +209,17 @@ Dans le fichier html "product-list.component.html".
 		`
 	})
 
-2 - Ajouter le component au module concerné app.module.ts
+Oubien indiquer dans TempletUrl: 'chemin d'acces au fichier html'.
+Puis dans le fichier html injecter la directive.
+
+Dans le fichier app.component.ts
+
+	templateUrl:'app.component.html',
+
+Dans le fichier app.component.HTML
+	<pm-products></pm-products>
+
+2 - Ajouter le component dans le module concerné app.module.ts
 
 	...
 	import { ProductListComponent } from './products/product-list.component';
@@ -246,7 +254,7 @@ Exemple de directive integre:
 	*ngSwitchCase
 	*mgModel ...
 
-*Remarque: * signifie que c'est une directive structure
+*Remarque:* l'asterisque signifie que c'est une directive structurel d'Angular.
 
 Exemple de directive integre ***ngIf** dans le fichier Html
 
@@ -303,7 +311,6 @@ Dans cet exemple le binding se fait à l'aide des [] suivi de la source mais peu
 
 		<img src={{product.imageUrl}>
 		<img src="http://openclipart.org/{{product.imageUrl}}">
-
 		<img [src]="product.imageUrl"
             [title]="product.productName"
             [style.width.px]="imageWidth">
@@ -329,7 +336,7 @@ click est le target event et toggleImage le template Statement.
 		Montrer image
 	</button>
 
-3 - Puis onajoute la logic qui affichera ou pas la list suivant l'etat du bouton dans product-list.component.html.
+3 - Puis on ajoute la logic qui affichera ou pas la list suivant l'etat du bouton dans product-list.component.html à l'aide de *ngIf.
 
 	<tr *ngFor='let product of products'>
 		<td>
@@ -362,7 +369,7 @@ Nous utiliserons la directive ngModel [(ngModel)].
 
   [(ngModel)]="listFilter"
 
-3 - Puis utiliser l'interpolation pour changer le textr saisi
+3 - Puis utiliser l'interpolation pour changer le texte saisi
 
 	<h4>Filtré par : {{listFilter}}</h4>
 
@@ -379,7 +386,7 @@ Nous utiliserons la directive ngModel [(ngModel)].
 		],
 	...
 
-### Transforme datas avec des pipes
+### Transformer les datas avec des pipes
 
 Exemple de specification lowercase:
 
@@ -431,9 +438,24 @@ Et en $, avec comme parametres 'USD', symbol et digit info (minimum digit) :
 	product: IProduct[]
 	...
 
-Le typage fort permet de lever les eventelles erreur de syntaxe car ils doivent parfaitement match avec l'interface.
+Le typage fort permet de lever les eventelles erreurs de syntaxes car les attributs membre de la classe doivent parfaitement match avec ceux de l'interface.
 
 3 - Nous allons maintenant creer la class implementant l'interface dans product.ts avec son constructeur.
+
+	export class Product implements IProduct {
+		constructor(public productId: number,
+		public productName: string,
+		public productCode: string,
+		public productDate: string,
+		public price: string,
+		public description: string,
+		public starRating: string,
+		public imageUrl: string){
+		}
+		calculateDiscount(percent: number): number{
+			return this.price - (this.price * percent / 100);
+		}
+	}
 
 ## Encapsulation du style Css au component
 
@@ -456,13 +478,15 @@ Le typage fort permet de lever les eventelles erreur de syntaxe car ils doivent 
 
 ![Cycle de vie d'un component](Documents/lifeCycle.bmp)
 
-OnInit: Effectue l'initialisation du component, avec la récupération des datas.
+OnInit: Effectue l'initialisation du component, avec la récupération des datas, par exemple.
 
-Onchanges: Effectue une action apres modification des proprietes d'entree.
+Onchanges: Effectue une action apres modification des proprietes d'entree lors d'un click bouton, par exemple.
 
 OnDestry: Effectue le nettoyage
 
-1 - nous appelons l'interface dans le component
+1 - Par exemple, nous pouvons utiliser l'implementation OnInit dans la classe ProductListComponent afin de définir la methode ngOnInit et par la suite initialiser la liste de produit.
+
+	```javascript
 	...
 	import { Component, OnInit } from '@angular/core';
 	...
@@ -473,6 +497,7 @@ OnDestry: Effectue le nettoyage
 	};
 		...
 	}
+	```
 
 Nous verrons s'afficher le message d'initialisation dans la console.log
 
@@ -507,7 +532,7 @@ Nous allons remplacer les tirets (-) des codes produits par des espaces.
 		],
 	...
 
-**Une recompilation est à faire lors que l'on effectue un changement dans app.module.ts**
+**ATTENTION : Une recompilation est à faire lorsque l'on effectue un changement dans app.module.ts**
 
 ## Getter
 
@@ -517,17 +542,17 @@ Nous allons remplacer les tirets (-) des codes produits par des espaces.
 
 ![Setter](Documents/setter.bmp)
 
-## getter/ setter
+## getter/ setter simple sans traitement particulier
 
  ![Getter & setter](Documents/getterSetter.bmp)
 
 ## Filtrer une list
 
-1 - Declarer la propriété suivante dans product-list.component.ts:
+1 - Declarer un attribut de type interface, ici IPrudct[] dans product-list.component.ts:
 
 	filteredProducts: IProduct[];
 
-2 - Generer getter & setter de listFilter
+2 - Generer getter & setter de listFilter à l'aide de l'IDE
 
 	private _listFilter: string;
 	public get listFilter(): string {
@@ -537,11 +562,11 @@ Nous allons remplacer les tirets (-) des codes produits par des espaces.
 		this._listFilter = value;
 	}
 
-3 - Puis on ajoute à la methode set listFilter la nouvelle attribution de valuer a filteredProducts sur condition que listFilter soit renseigné.
+3 - Puis on ajoute à la methode set listFilter la nouvelle attribution de valeur a filteredProducts sur condition que listFilter soit renseigné filtré, dans ce cas on appel la methode performFilter sinon on retourne toute mla liste non filtrée.
 
 	this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
 
-4 - On creer la methodeperformFilter()
+4 - On creer la methode performFilter() retournant la nouvelle liste de produits filtrée.
 
 	performFilter(filterBy: string): IProduct[] {
 		// filterBy est insensitive à la casse (toLocaleLowerCase())
@@ -573,6 +598,7 @@ Exemple sur la colonne Evaluation nous y ajouterons un component de selection re
 
 * star.component.html
 
+    ```html
 	<div class="crop"
 		[style.width.px]="starWidth"
 		[title]="rating">
@@ -584,6 +610,7 @@ Exemple sur la colonne Evaluation nous y ajouterons un component de selection re
 		<span class="fa fa-star"></span>
 	</div>
 	</div>
+	```
 
 * star.component.css
 
