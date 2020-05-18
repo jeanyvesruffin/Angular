@@ -655,7 +655,8 @@ Exemple:
 
 Nous devons juste ajouter la decoration @Input() devant l'attribut que l'on desire mettre dans le composant imbriqué
 
-### Passer des datas au component imbriqué en utilisant @Output
+### Passer des datas au component imbriqué en utilisant @Output (emit)
+
 Nous desirons que l'evaluation soit retourné dans le titre de la page
 
  1. On ajoute l'event dans le fichier html
@@ -685,9 +686,13 @@ Nous desirons que l'evaluation soit retourné dans le titre de la page
                  (ratingClicked)='onRatingClicked($event)'>
 		</pm-star></td>
 
- 6. On cree la methode onRatingClicked($event) dans product-list.component.ts, ce
+ 6. On cree la methode onRatingClicked($event) dans product-list.component.ts.
 
-## Injection de services et de depenences
+	onRatingClicked(message: string): void{
+		this.pageTitle ='List de produit '+ message;
+	};
+
+## Injection de services et de dependences
 
 ### Construction de service (utile pour logging initialiser des datas...)
 Un service doit etre independant et autonome.
@@ -744,7 +749,144 @@ Puis en l'initialisant dans
 	};
 
 ## Récupération de données à l'aide de Http
+Reactive Extensions for JavaScript (RxJS): 
+Est une bibliothèque de programmation réactive utilisant des observables qui facilite la composition de code asynchrone ou basé sur le rappel.
 
+**Documentation sur RxJS :https://rxmarbles.com/**
+
+### Extensions observable et reactive
+
+![RxJS](Documents/RxJS.bmp)
+
+Par convention l'observable est noté, par exemple:
+
+	const source$: Observable<number>
+
+![composition des opérateurs](Documents/Observable.bmp)
+
+### Envoi de requete Http
+
+ 1. Ajouter la librairy http au fichier app.module.ts
+
+	import { HttpClientModule } from '@angular/common/http';
+	@NgModule({
+		declarations: [
+		...
+		],
+		imports: [
+		...
+			HttpClientModule
+		],
+	...
+
+ 2. Dans le fichier product.service.ts, creer un constructeur prenant en parametre une instance d'HttpClient() + declarer un attribut pointant sur l'url de l'api (ici l'api est en local).
+ 
+ Nous pouvons utiliser l'api en local car nous avions definie dans le fichier angular.json src/api:
+
+	"projects": {
+		"APM": {
+		...
+			"assets": [
+			"src/favicon.ico",
+			"src/assets",
+			"src/api"
+			],
+		...
+
+
+Dans le fichier product.service.ts
+
+	constructor(private http: HttpClient){}
+	private productUrl = 'api/products/product.json';
+
+On peux desormais supprimer les produits hard code pour les remplacer par la list observé telquel:
+
+	import { Observable } from 'rxjs';
+	...
+	export class ProductService {
+		private productUrl = 'api/products/products.json';
+		constructor(private http: HttpClient){}
+		getProducts(): Observable<IProduct[]> {
+			return this.http.get<IProduct[]>(this.productUrl);
+		}
+	}
+
+Pour toutes envoi de requete http, il est nécessaire de mettre en place les Exception Handling pour traiter les requetes qui echoue ou qui sont incorrect:
+
+	private handleError(err:HttpErrorResponse){
+		let errorMessage = '';
+		if (err.error instanceof ErrorEvent){
+			errorMessage = `Une erreur est apparue : ${err.error.message}`;
+		} else {
+			errorMessage = `Le code retourné par le serveur : ${err.status}, message d'erreur est : ${err.message}`;
+		}
+		console.error(errorMessage);
+		return throwError(errorMessage);
+		};
+		getProducts(): Observable<IProduct[]> {
+			return this.http.get<IProduct[]>(this.productUrl).pipe(
+			tap(data => console.log('Tous : ' + JSON.stringify(data))),
+			catchError(this.handleError)
+		);
+	}
+
+### Sousciption à un observable
+
+	x.subscribe(Observable)
+	x.subscribe({
+		nextFn,
+		errorFn,
+		completeFn
+	})
+
+![Subscribe d'un observable](Documents/subscribeObservable.bmp)
+
+Dans product-list.component.ts. this.products est en erreur.
+En effet suite à la mise en place de l'observable, this.productService.getProduct() nous retournera un type Observable<IProduct[]>, changeons cela:
+
+	...
+	errorMessage: string;
+	...
+	ngOnInit(): void {
+		this.productService.getProducts().subscribe({
+			next: products => this.products = products,
+			error: err => this.errorMessage = err
+		});
+		console.log('Initialisation component list produit');
+	};
+	...
 	 
-	
-    
+Le programme est en erreur ??? Voyons le cheminement:
+
+![Cheminement](Documents/analyse_1.bmp)
+
+1. Angular initialise productService(1)
+2. ProductService nous retourne une list d'Observable<IProduct[]>
+3. Nous souscrivons l'observable
+4. La requete Get est soumise puis nous executons la ligne suivante (next ou error 3.)
+5. L'executions nous rempli alors notre filteredProducts mais nous n'avons pas de data...
+
+Dans un second temps
+
+![Cheminement](Documents/analyse_2.bmp)
+
+1. Le service reçoit la reponse http de la requete. La data en reponse est mappé dans un tableau de produit. La reponse achemine les operations et observable emits par le subscribe
+2. Notre subscriber recoit les datas emis.
+3. Et assigne nos proprietes de produits dans notre tableau de produit emit.
+
+Mais comme nous avons liés dans filteredProducts les produits, nous n'avons pas notifié que nous voulons maintenant recuperer la liste de produits.
+
+Le problème est ici il faut que nous notifions le fait de vouloir remplir notre filtre de produit lors de la subscrition de la requete Get next comme ceci:
+
+	ngOnInit(): void {
+		this.productService.getProducts().subscribe({
+			next: products => {
+				this.products = products;
+				this.filteredProducts = this.products;
+			},
+			error: err => this.errorMessage = err
+		});
+		console.log('Initialisation component list produit');
+	};
+
+Le programme fonctionne et nous pouvons voir dans la console de debug du navigateur, la reponse, le json.
