@@ -132,11 +132,11 @@ Installation préalable de:
 Les dependances declarees avec leur version sont dans le fichier **package.json**.
 
 Une fois le projet recupere ouvrir un terminal, allez à la racine du projet puis faire.
-```cmd
-npm install
-npm install bootstrap
-npm install font-awesome
-```
+
+	npm install
+	npm install bootstrap
+	npm install font-awesome
+
 
 Tapper enfin la ligne de commande suivante pour compiler et executer le programme dans votre navigateur.
 
@@ -154,14 +154,14 @@ Faire Ctrl+C dans le terminal
 ## Export/ Import de classe
 
 Export dans product.ts de la classe Product:
-
+```js
 	export class Product{
 	}
-
+```
 Import Product dans product-list.ts
-
+```js
 	import { Product } from './product'
-
+```
 ## Component
 
 Il est composé d'un template (View), class (Class) et de metadata (Annotation).
@@ -183,7 +183,7 @@ Nous allons ajouter le component "pm-products" dans le fichier product-list.comp
 1 - Création folder "products"
 
 2 - Céation du component "product-list.component.ts":
-
+```js
 	import { Component } from '@angular/core';
 	@Component({
 		selector: 'pm-products',
@@ -192,12 +192,12 @@ Nous allons ajouter le component "pm-products" dans le fichier product-list.comp
 	export class ProductListComponent  {
 		pageTitle: string = 'Product List';
 	}
-
+```
 3 - Importer dans le fichier styles.css les librairie bootstrap et font-awesome:
-
+```js
 	@import "~boostrap/dist/css/bootstrap.min.css";
 	@import "~font-awesome/css/font-awesome.min.css";
-
+```
 ### Création templet
 
 Dans le fichier html "product-list.component.html".
@@ -211,7 +211,7 @@ Dans le fichier html "product-list.component.html".
 ### Creation directive
 
 1 - Utiliser le component pour y injecter la directive pm-products, dans app.component.ts.
-
+```js
 	@Component({
 		selector: 'pm-root',
 		template: `
@@ -220,19 +220,20 @@ Dans le fichier html "product-list.component.html".
 		</div>
 		`
 	})
-
+```
 Oubien indiquer dans TempletUrl: 'chemin d'acces au fichier html'.
 Puis dans le fichier html injecter la directive.
 
 Dans le fichier app.component.ts
-
+```js
 	templateUrl:'app.component.html',
-
+```
 Dans le fichier app.component.HTML
+```html
 	<pm-products></pm-products>
-
+```
 2 - Ajouter le component dans le module concerné app.module.ts
-
+```js
 	...
 	import { ProductListComponent } from './products/product-list.component';
 	...
@@ -243,22 +244,22 @@ Dans le fichier app.component.HTML
 	],
 	...
 	})
-
+```
 ### Binding avec interpolation
 
 ![Exemple Interpolation](Documents/Interpolation.bmp)
 
 Exemple de directive dans le fichier Html:
-
+```html
 	<directive></directive>
-
+```
 Correspondant à la directive du component:
-
+```js
 	@Component({
 		selector: 'directive',
 		...
 	})
-
+```
 Exemple de directive integre:
 
 	*ngIf
@@ -269,15 +270,15 @@ Exemple de directive integre:
 *Remarque:* l'asterisque signifie que c'est une directive structurel d'Angular.
 
 Exemple de directive integre ***ngIf** dans le fichier Html
-
+```html
 	<table class="table" *ngIf="products && products.length">
-           
+```           
 Cette directive signifie que si products et products.length retourne vrai alors on affiche la list (Produit, Code, Disponibilité ...) dans le cas contraire elle ne sera pas affichée.
 
 Nous avons donc hardcode une list de produit, celle-ci serait exposé à travers une api coté back.
 
 Dans le fichier product-list.component.ts
-
+```js
 	...
 	export class ProductListComponent {
 		...
@@ -295,9 +296,9 @@ Dans le fichier product-list.component.ts
 			...
 		];
 	}
-
+```
 Exemple de directive integre ***ngFor** dans le fichier Html
-
+```html
 	<tr *ngFor='let product of products'>
 		<td></td>
 		<td>{{ product.productName }}</td>
@@ -306,7 +307,7 @@ Exemple de directive integre ***ngFor** dans le fichier Html
 		<td>{{ product.price }}</td>
 		<td>{{ product.starRating }}</td>
 	</tr>
-           
+```        
 Cette directive permet d'afficher pour chaque produit de produits : productName, productCode, releaseDate, price, starRating.
 
 Rappel **for...of vs for...in**
@@ -316,40 +317,40 @@ Rappel **for...of vs for...in**
 ## Data binding et pipes
 
 ### Property binding
-
+```html
 	<img [src]="product.imageUrl">
-
+```
 Dans cet exemple le binding se fait à l'aide des [] suivi de la source mais peut etre fait avec une expression entre {{}} ou par interpolation.
-
-		<img src={{product.imageUrl}>
-		<img src="http://openclipart.org/{{product.imageUrl}}">
-		<img [src]="product.imageUrl"
-            [title]="product.productName"
-            [style.width.px]="imageWidth">
-
+```html
+<img src={{product.imageUrl}>
+<img src="http://openclipart.org/{{product.imageUrl}}">
+<img [src]="product.imageUrl"
+	[title]="product.productName"
+	[style.width.px]="imageWidth">
+```
 ### Event binding
 
 Ressource utile repectoriant tous les events possible: 
 https://developer.mozilla.org/en-US/docs/web/events
-
+```html
 	<button (click)="toggleImage()">
-
+```
 click est le target event et toggleImage le template Statement.
 
 1 - Ecrir la methode toggleImage dans product-list.component.ts
-
+```js
 	toggleImage(): void {
 		this.showImage = !this.showImage;
 	};
-
+```
 2 - Mettre en place l'event sur le bouton dans product-list.component.html
-
+```html
 	<button class="btn btn-primary" (click)="toggleImage()">
 		Montrer image
 	</button>
-
+```
 3 - Puis on ajoute la logic qui affichera ou pas la list suivant l'etat du bouton dans product-list.component.html à l'aide de *ngIf.
-
+```html
 	<tr *ngFor='let product of products'>
 		<td>
 			<img *ngIf="showImage"
@@ -359,14 +360,14 @@ click est le target event et toggleImage le template Statement.
 			[style.margin.px]="imageMargin">
 		</td>
 	...
-
+```
 4 - Nous allons enfin binding le text du bouton afin qu'il change suivant l'evenement click.
-
+```html
 	<button class="btn btn-primary"
 		(click)="toggleImage()">
 			{{ showImage ? "Cacher":"Montrer" }} image
 	</button>
-
+```
 ### Liaison bidirectionnelle
 
 Exemple sur le filtre.
@@ -374,19 +375,21 @@ Exemple sur le filtre.
 Nous utiliserons la directive ngModel [(ngModel)].
 
 1 - Ajouter la propriete dans product-list.component.ts
-
+```js
 	listFilter: string = "cart"
-
+```
 2 - Ajouter la directive ngModel dans product-list.component.html.
 
-  [(ngModel)]="listFilter"
+```html
+ <input type='text' [(ngModel)]='listFilter'/>
+```
 
 3 - Puis utiliser l'interpolation pour changer le texte saisi
-
+```html
 	<h4>Filtré par : {{listFilter}}</h4>
-
+```
 4 - Nous devons enfin import le FormModule dans app.module.ts
-
+```js
 	...
 	import { FormsModule } from '@Angular/forms';
 	...
@@ -397,39 +400,39 @@ Nous utiliserons la directive ngModel [(ngModel)].
 			FormsModule
 		],
 	...
-
+```
 ### Transformer les datas avec des pipes
 
 Exemple de specification lowercase:
-
-	{{product.productCode | lowercase }}
-
+```html
+	 <td>{{ product.productCode | lowercase }}</td>
+```
 1 - Nous voulons par exemple que le nom du produit commence par une majuscule alors dans product-list.component.html.
-
+```html
 	<img [src]='product.imageUrl'
 		 [title]='product.productName | uppercase' >
-
+```
 Ou s'il on veux le prix en minuscule
-
-	{{ product.price | currency | lowercase }}
-
+```html
+	<td>{{ product.price | currency | lowercase }}</td>
+```
 Et en $, avec comme parametres 'USD', symbol et digit info (minimum digit) :
-
-	{{ product.price | currency: 'USD':'symbol':'1.2-2' | lowercase }}
-
+```html
+	<td>{{ product.price | currency: 'USD':'symbol':'1.2-2' | lowercase }}</td>
+```
 1.2 signifie 1 digit à gauche, 2 deux digit a gauche et limité à 2 digit à gauche
-
+```html
 	...
 	<td>{{ product.productCode | lowercase }}</td>
 	<td>{{ product.price | currency:'EUR':'symbol':'1.2-2' }}</td>
 	...
-
+```
 ![data binding](Documents/dataBinding.bmp)
 
 ## Interface
 
 1 - Exemple creer un fichier product.ts dans lequel nous ecrirons notre interface :
-
+```js
 	export interface IProduct {
 		productId: number;
 		productName: string;
@@ -441,19 +444,19 @@ Et en $, avec comme parametres 'USD', symbol et digit info (minimum digit) :
 		imageUrl: string;
 		calculateDiscount(percent: number): number;
 	}
-
+```
 2 - Puis nous remplacerons le type any du parametre products par l'interface dans product-list.component.ts
-
+```js
 	...
 	import { IProduct } from './product';
 	...
 	product: IProduct[]
 	...
-
+```
 Le typage fort permet de lever les eventelles erreurs de syntaxes car les attributs membre de la classe doivent parfaitement match avec ceux de l'interface.
 
 3 - Nous allons maintenant creer la class implementant l'interface dans product.ts avec son constructeur.
-
+```js
 	export class Product implements IProduct {
 		constructor(public productId: number,
 		public productName: string,
@@ -468,24 +471,24 @@ Le typage fort permet de lever les eventelles erreurs de syntaxes car les attrib
 			return this.price - (this.price * percent / 100);
 		}
 	}
-
+```
 ## Encapsulation du style Css au component
 
 ![Encapsulation Css](Documents/encapsulationCss.bmp)
 
 1 - On creer le fichier css associé au component products
-
+```css
 	thead{
 		color: #337AB7
 	}
-
+```
 2 - Puis nous ajoutons le style à notre component. Nous pouvons ici y ajouter autant de feuilles de style que l'on souhaite:
-
+```js
 	@Component({
 		...
 		styleUrls:['./product-list.component.css']
 	})
-
+```
 ## Cycle de vie d'un component
 
 ![Cycle de vie d'un component](Documents/lifeCycle.bmp)
@@ -518,7 +521,7 @@ Nous verrons s'afficher le message d'initialisation dans la console.log
 Nous allons remplacer les tirets (-) des codes produits par des espaces.
 
 1 - Dans le dossier shared creer un fichier convert-to-spaces.pipe.ts
-
+```js
 	import { Pipe, PipeTransform } from '@angular/core';
 	@Pipe({
 		name: 'convertToSpaces'
@@ -528,13 +531,13 @@ Nous allons remplacer les tirets (-) des codes produits par des espaces.
 			return value.replace(character, ' ');
 		}
 	}
-
+```
 2 - Utilisation du pipe dans product-list.component.html
-
+```html
 	<td>{{ product.productCode | lowercase | convertToSpaces: '-' }}</td>
-
+```
 3 - Ajouter le custom pipe dans le app.module.ts
-
+```js
 	...
 	import { ConvertToSpacesPipe } from './shared/convert-to-spaces.pipe';
 	@NgModule({
@@ -543,7 +546,7 @@ Nous allons remplacer les tirets (-) des codes produits par des espaces.
 		ConvertToSpacesPipe
 		],
 	...
-
+```
 **ATTENTION : Une recompilation est à faire lorsque l'on effectue un changement dans app.module.ts**
 
 ## Getter
@@ -561,11 +564,11 @@ Nous allons remplacer les tirets (-) des codes produits par des espaces.
 ## Filtrer une list
 
 1 - Declarer un attribut de type interface, ici IPrudct[] dans product-list.component.ts:
-
+```js
 	filteredProducts: IProduct[];
-
+```
 2 - Generer getter & setter de listFilter à l'aide de l'IDE
-
+```js
 	private _listFilter: string;
 	public get listFilter(): string {
 		return this._listFilter;
@@ -573,32 +576,32 @@ Nous allons remplacer les tirets (-) des codes produits par des espaces.
 	public set listFilter(value: string) {
 		this._listFilter = value;
 	}
-
+```
 3 - Puis on ajoute à la methode set listFilter la nouvelle attribution de valeur a filteredProducts sur condition que listFilter soit renseigné filtré, dans ce cas on appel la methode performFilter sinon on retourne toute mla liste non filtrée.
-
+```js
 	this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
-
+```
 4 - On creer la methode performFilter() retournant la nouvelle liste de produits filtrée.
-
+```js
 	performFilter(filterBy: string): IProduct[] {
 		// filterBy est insensitive à la casse (toLocaleLowerCase())
 		filterBy = filterBy.toLocaleLowerCase();
 		return this.products.filter((product: IProduct) => product.productName.toLocaleLowerCase().indexOf(filterBy) !== -1);
 	}
-
+```
 Plus d'information: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
 
 5 - on creer un constructeur pour initialiser le filtre:
-
+```js
 	constructor(){
 		this.filteredProducts = this.products;
 		this.listFilter = 'cart'
 	}
-
+```
 6 - On change dans le templet la directive *ngFor pour y bind le filtre
-
+```html
 	<tr *ngFor='let product of filteredProducts'>
-
+```
 ## Construction d'un component imbriqué (poupé russe) Nested Component
 
 Exemple sur la colonne Evaluation nous y ajouterons un component de selection representé par des etoiles.
@@ -625,14 +628,14 @@ Exemple sur la colonne Evaluation nous y ajouterons un component de selection re
 	```
 
 * star.component.css
-
+```css
 	.crop {
 	overflow: hidden;
 	}
 	div {
 	cursor: pointer;
 	}
-
+```
 * star.component.ts
 
 Rappel:
@@ -643,23 +646,23 @@ Rappel:
 	* templateUrl
 	* styleUrls
  3. Declaration de la classe
-
+```js
 	export class NameComponent {
 		attribut
 		methode
 		...
 	}
-
+```
  4. et (ou) implement un event (ex: onchange) sur la class + implementation interface
-
+```js
 	export class NameComponent implements OnChanges {
 		attribut;
 		// retour attendu de la methode sans parametre
 		ngOnChange():void{}
 	}
-
+```
 Exemple:
-
+```js
 	import { Component, OnChanges } from '@angular/core';
 	@Component({
 		selector: 'pm-star',
@@ -674,22 +677,22 @@ Exemple:
 			this.starWidth = this.rating * 75 / 5;
 		}
 	}
-
+```
 5. Toujours finir par renseigner le app.module
-
+```js
 	@NgModule({
   	declarations: [
     ...
     StarComponent
   ],
   ...
-  
+```
 ### Utilisation du component imbriqué
 
 - On remplace {{ product.ranking }} par la directive pm-star est l'atttribut bind [rating]='product.starRating'
-
+```html
 	<td><pm-start [rating]='product.starRating'></pm-start></td>
-
+```
 ### Passer des datas au component imbriqué en utilisant @Input
 
 Nous devons juste ajouter la decoration @Input() devant l'attribut que l'on desire mettre dans le composant imbriqué
@@ -699,38 +702,38 @@ Nous devons juste ajouter la decoration @Input() devant l'attribut que l'on desi
 Nous desirons que l'evaluation soit retourné dans le titre de la page
 
  1. On ajoute l'event dans le fichier html
-
+```html
 	<div class="crop"
      [style.width.px]="starWidth"
      [title]="rating"
      (click)="onClick()">
-
+```
  2. On cree la methode onClick avec un console.log par exemple
-
+```js
 	onClick():void{
         console.log("L'evaluation de ${this.rating} est selectionné")
     }
-
+```
  3. Ajouter la decoration @Output() devant l'attribut que l'on souhaite surveiller, attribut membre à la classe EventEmitter, afin qu'il nous retourne son changement d'état.
-
+```js
  	@Output() ratingClicked: EventEmitter<string> = new EventEmitter<string>();
-
+```
  4. On utilise cet attribut en utilisant la methode emit d'EventEmitter
-
+```js
 	this.ratingClicked.emit(`L'evaluation de ${this.rating} est selectionné`)
-
+```
  5. Nous pouvons desormais indiquer notre attribut dans product-list.component.html en lui donnant la valeur retourné par la methode onRatingClicked($event)
-
+```html
 	<td><pm-star [rating]='product.starRating' 
                  (ratingClicked)='onRatingClicked($event)'>
 		</pm-star></td>
-
+```
  6. On cree la methode onRatingClicked($event) dans product-list.component.ts.
-
+```js
 	onRatingClicked(message: string): void{
 		this.pageTitle ='List de produit '+ message;
 	};
-
+```
 ## Injection de services et de dependences
 
 ### Construction de service (utile pour logging initialiser des datas...)
@@ -744,7 +747,7 @@ Exemple de service de data de produit
  3. Importer se dont on a besoin
 
 - Creer nouveau file product.service.ts dans le dossier product
-
+```js
 	import { Injectable } from '@angular/core';
 	import { IProduct } from './product'
 
@@ -765,28 +768,28 @@ Exemple de service de data de produit
 			];
 		}
 	}
-
+```
 - Enregistrer votre service
-
+```js
 	@Injectable({
 		providedIn: 'root'
 	})
-
+```
 
 - Puis utiliser le service en l'injectant dans le constructeur dans product-list.component.ts.
-
+```js
 	constructor(private productService: ProductService){
 		this.filteredProducts = this.products;
 		this.listFilter = 'cart'
 	}
-
+```
 Puis en l'initialisant dans
-
+```js
 	ngOnInit(): void {
 		this.products = this.productService.getProducts();
 		console.log('Initialisation component list produit');
 	};
-
+```
 ## Récupération de données à l'aide de Http
 Reactive Extensions for JavaScript (RxJS): 
 Est une bibliothèque de programmation réactive utilisant des observables qui facilite la composition de code asynchrone ou basé sur le rappel.
@@ -798,15 +801,15 @@ Est une bibliothèque de programmation réactive utilisant des observables qui f
 ![RxJS](Documents/RxJS.bmp)
 
 Par convention l'observable est noté, par exemple:
-
+```js
 	const source$: Observable<number>
-
+```
 ![composition des opérateurs](Documents/Observable.bmp)
 
 ### Envoi de requete Http
 
  1. Ajouter la librairy http au fichier app.module.ts
-
+```js
 	import { HttpClientModule } from '@angular/common/http';
 	@NgModule({
 		declarations: [
@@ -817,11 +820,11 @@ Par convention l'observable est noté, par exemple:
 			HttpClientModule
 		],
 	...
-
+```
  2. Dans le fichier product.service.ts, creer un constructeur prenant en parametre une instance d'HttpClient() + declarer un attribut pointant sur l'url de l'api (ici l'api est en local).
  
  Nous pouvons utiliser l'api en local car nous avions definie dans le fichier angular.json src/api:
-
+```json
 	"projects": {
 		"APM": {
 		...
@@ -831,15 +834,15 @@ Par convention l'observable est noté, par exemple:
 			"src/api"
 			],
 		...
-
+```
 
 Dans le fichier product.service.ts
-
+```js
 	constructor(private http: HttpClient){}
 	private productUrl = 'api/products/product.json';
-
+```
 On peux desormais supprimer les produits hard code pour les remplacer par la list observé telquel:
-
+```js
 	import { Observable } from 'rxjs';
 	...
 	export class ProductService {
@@ -849,9 +852,9 @@ On peux desormais supprimer les produits hard code pour les remplacer par la lis
 			return this.http.get<IProduct[]>(this.productUrl);
 		}
 	}
-
+```
 Pour toutes envoi de requete http, il est nécessaire de mettre en place les Exception Handling pour traiter les requetes qui echoue ou qui sont incorrect:
-
+```js
 	private handleError(err:HttpErrorResponse){
 		let errorMessage = '';
 		if (err.error instanceof ErrorEvent){
@@ -868,7 +871,7 @@ Pour toutes envoi de requete http, il est nécessaire de mettre en place les Exc
 			catchError(this.handleError)
 		);
 	}
-
+```
 ### Sousciption à un observable
 
 	x.subscribe(Observable)
@@ -882,7 +885,7 @@ Pour toutes envoi de requete http, il est nécessaire de mettre en place les Exc
 
 Dans product-list.component.ts. this.products est en erreur.
 En effet suite à la mise en place de l'observable, this.productService.getProduct() nous retournera un type Observable<IProduct[]>, changeons cela:
-
+```js
 	...
 	errorMessage: string;
 	...
@@ -894,7 +897,7 @@ En effet suite à la mise en place de l'observable, this.productService.getProdu
 		console.log('Initialisation component list produit');
 	};
 	...
-	 
+```
 Le programme est en erreur ??? Voyons le cheminement:
 
 ![Cheminement](Documents/analyse_1.bmp)
@@ -916,7 +919,7 @@ Dans un second temps
 Mais comme nous avons liés dans filteredProducts les produits, nous n'avons pas notifié que nous voulons maintenant recuperer la liste de produits.
 
 Le problème est ici il faut que nous notifions le fait de vouloir remplir notre filtre de produit lors de la subscrition de la requete Get next comme ceci:
-
+```js
 	ngOnInit(): void {
 		this.productService.getProducts().subscribe({
 			next: products => {
@@ -927,5 +930,5 @@ Le problème est ici il faut que nous notifions le fait de vouloir remplir notre
 		});
 		console.log('Initialisation component list produit');
 	};
-
+```
 Le programme fonctionne et nous pouvons voir dans la console de debug du navigateur, la reponse, le json.
