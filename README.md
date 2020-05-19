@@ -1011,7 +1011,7 @@ Exemple effectué surt le détail d'un produit, nous indiquerons dans l'url d'id
 	```js
 	{ path: 'products/:id', component: ProductDetailComponent },
     ```
-2. On ajoute un link au nom des produit qui utiliseront la route menant au detail du produit.
+2. On ajoute un lien au nom des produit qui utiliseront la route menant au detail du produit.
 	```html
 	<td><a [routerLink]="['/products', product.productId]">{{ product.productName }}</a></td>
 	```
@@ -1042,15 +1042,111 @@ export class ProductDetailComponent implements OnInit {
 }
 ```
 
-
-
-
-Le + est un raccourcie javascrript pour convrtir en string
-
+Le + est un raccourcie javascript pour convertir un string en nombre
 
 ### Activer des route avec du code
+Dans cet esemple nous allons creer un bouton "Back" pour revenir en arriere "page list produit" lorsque l'on click sur le bouton back.
 
+1. On ajoute au constructeur de product-detail.component.ts un parametre de type Router + l'import.
+
+	```js
+	import { ActivatedRoute, Router } from '@angular/router';
+	constructor(private route: ActivatedRoute, private router: Router) { }
+	```
+2. Creation de la methode back qui sera appelée lors du click sur le bouton back.
+
+	```js
+	onBack():void{
+    	this.router.navigate(['/products']);
+  	}
+  	```
+3. On ajoute au templet de product-detail.component.html le bouton (rappel balise i pour mettre en italique)
+
+	```html
+	    <div class= 'card-footer'>
+        <button class = 'btn btn-outline-secondary'
+                (click) = 'onBack()'
+                style='width:80px'>
+			<i class = 'fa fa-chevron-left'></i>
+			 Back
+        </button>
+    </div>
+	```
 ### Proteger les routes avec des guards
+
+Exemple dans le cas, par exemple, de la gestion de droit d'acces à une page suivant le niveau d'habilitation (admin, user). 
+
+4 types de guards:
+- CanActivate: Surveillance de navigation sur une route (acces)
+- CanDeactivate: Surveillance de navigation à partir d'une route (sortie)
+- Resolve: Pré-récupérer des données avant d'activer une route
+- CanLoad: Empêcher le routage asynchrone
+
+Nous utiliserons dans notre cas canactivate pour acceder à notre page.
+
+1. Construire le guard (product-detail.guard.ts), doit respecter le pattern suivant:
+	* Creation export class
+	* Decore de @Injectable
+	* classe implements CanActivate (ou CanDeactivate, Resolve, CanLoad) 
+	* Import des librairy
+	* creer une methode retournant un boolean si activate
+	* Ajouter dans app.module.ts les parametres canActivate (ex) sur les route à surveiller 
+
+Pour mettre en place le pattern nous utiliserons le client angular (Angular cli) est executerons dans un terminal la commande suivante:
+
+	ng g g products/product-detail
+
+Il faut desormais construire le constructeur et definir la methode de validation.
+Remarques sur la surcharge de la methode CanActivate:
+- 'next : ActivatedRouteSnapshot' permet de recuperer les informations de la route courante.
+- '+' : permet de convertir l'url path string en nombre.
+- 'url[1]' car l'id correspond au deuxieme element de notre url path (products/id), product etant le premier [0]
+- Condition de validation si l'id est inferieur à 1 ou qu'il n'est pas un nombre on alerte et on redirige vers la route /products sinon retourne vrai.
+
+	```js
+	import { Injectable } from '@angular/core';
+	import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+	import { Observable } from 'rxjs';
+
+	@Injectable({
+	providedIn: 'root'
+	})
+	export class ProductDetailGuard implements CanActivate {
+		constructor(private router : Router){}
+		canActivate(
+			next: ActivatedRouteSnapshot,
+			state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+			let id = +next.url[1].path;
+			if (isNaN(id) || id < 1){
+				alert("Id produit invalide");
+				this.router.navigate(['/products']);
+				return false;
+			}
+			return true;
+		}
+	}
+	```
+
+Nous ajoutons enfin dans le app.module le guard sur notre route
+
+	```js
+	{ path: 'products/:id',
+      canActivate: [ProductDetailGuard],
+	  component: ProductDetailComponent 
+	},
+	```
+### Angular Module
+
+Nous allons organiser nos modules pour obtenir le resultat suivant:
+
+Avant:
+![Avant](Documents/AppModuleStart.bmp)
+
+
+Apres:
+![Apres](Documents/AppModuleEnd.bmp)
+
+
 
 
 
