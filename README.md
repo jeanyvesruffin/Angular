@@ -6,6 +6,64 @@ Angular utilise la syntaxe TypeScript qui suis les normes es7+, ainsi que HTML e
 
 Nous recupererons des styles sur https://getbootstrap.com/ et pour les icones utiliserons la librairie awesome https://fontawesome.com
 
+
+<!-- TOC -->
+
+- [Angular](#angular)
+    - [Part 1: Introduction](#part-1-introduction)
+        - [Version](#version)
+        - [Architecture](#architecture)
+        - [Test tool](#test-tool)
+        - [Module API](#module-api)
+    - [Part 2: Quick starter](#part-2-quick-starter)
+        - [Modifier le texte d'accueil](#modifier-le-texte-daccueil)
+        - [Stoper la compilation](#stoper-la-compilation)
+    - [Export/ Import de classe](#export-import-de-classe)
+    - [Component](#component)
+    - [Metadata](#metadata)
+    - [Creation Component/ Templates, interpolation et directive](#creation-component-templates-interpolation-et-directive)
+        - [Création component](#création-component)
+        - [Création templet](#création-templet)
+        - [Creation directive](#creation-directive)
+        - [Binding avec interpolation](#binding-avec-interpolation)
+    - [Data binding et pipes](#data-binding-et-pipes)
+        - [Property binding](#property-binding)
+        - [Event binding](#event-binding)
+        - [Liaison bidirectionnelle](#liaison-bidirectionnelle)
+        - [Transformer les datas avec des pipes](#transformer-les-datas-avec-des-pipes)
+    - [Interface](#interface)
+    - [Encapsulation du style Css au component](#encapsulation-du-style-css-au-component)
+    - [Cycle de vie d'un component](#cycle-de-vie-dun-component)
+    - [Transformation des datas avec des custom pipes](#transformation-des-datas-avec-des-custom-pipes)
+    - [Getter](#getter)
+    - [Setter](#setter)
+    - [getter/ setter simple sans traitement particulier](#getter-setter-simple-sans-traitement-particulier)
+    - [Filtrer une list](#filtrer-une-list)
+    - [Construction d'un component imbriqué (poupé russe) Nested Component](#construction-dun-component-imbriqué-poupé-russe-nested-component)
+        - [Construction component imbriqué](#construction-component-imbriqué)
+        - [Utilisation du component imbriqué](#utilisation-du-component-imbriqué)
+        - [Passer des datas au component imbriqué en utilisant @Input](#passer-des-datas-au-component-imbriqué-en-utilisant-input)
+        - [Passer des datas au component imbriqué en utilisant @Output (emit)](#passer-des-datas-au-component-imbriqué-en-utilisant-output-emit)
+    - [Injection de services et de dependences](#injection-de-services-et-de-dependences)
+        - [Construction de service (utile pour logging initialiser des datas)](#construction-de-service-utile-pour-logging-initialiser-des-datas)
+    - [Récupération de données à l'aide de Http](#récupération-de-données-à-laide-de-http)
+        - [Extensions observable et reactive](#extensions-observable-et-reactive)
+        - [Envoi de requete Http](#envoi-de-requete-http)
+        - [Sousciption à un observable](#sousciption-à-un-observable)
+    - [Notions de navigation et de routage](#notions-de-navigation-et-de-routage)
+        - [Creation du component product-detail](#creation-du-component-product-detail)
+        - [Creation du component welcome](#creation-du-component-welcome)
+    - [Routing](#routing)
+    - [Navigation entre les differentes routes](#navigation-entre-les-differentes-routes)
+    - [Technique additionnelle de navigation et routage](#technique-additionnelle-de-navigation-et-routage)
+        - [Passer des paramétres au route](#passer-des-paramétres-au-route)
+        - [Activer des route avec du code](#activer-des-route-avec-du-code)
+        - [Proteger les routes avec des guards](#proteger-les-routes-avec-des-guards)
+        - [Angular Module](#angular-module)
+- [Linux](#linux)
+
+<!-- /TOC -->
+
 ## Part 1: Introduction
 ### Version
 
@@ -131,8 +189,16 @@ Installation préalable de:
 
 Les dependances declarees avec leur version sont dans le fichier **package.json**.
 
+Verifier les version de npm et nodejs
+
+	npm -v
+	node -v
+
+
 Une fois le projet recupere ouvrir un terminal, allez à la racine du projet puis faire.
 
+	npm install -g @angular/cli
+	ng v
 	npm install
 	npm install bootstrap
 	npm install font-awesome
@@ -1146,7 +1212,11 @@ Avant:
 Apres:
 ![Apres](Documents/AppModuleEnd.bmp)
 
+# Linux
 
+Installation de node :
+
+https://www.tecmint.com/nvm-install-multiple-nodejs-versions-in-linux/
 
 
 
