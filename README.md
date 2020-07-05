@@ -180,6 +180,8 @@ Angular contient des outils de test telques:
 
 Telecharger le projet d'étude à l'adresse url:
 
+https://cli.angular.io/
+
 https://github.com/DeborahK/Angular-GettingStarted
 
 Installation préalable de:
